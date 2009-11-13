@@ -11,7 +11,7 @@ package test;
  */
 public class ClaseCaliz {
 
-    private static String saludo= "HOLA";
+    private static String saludo= "HOLAtyutyutyu";
     private int contador=0;
 
     ClaseCaliz(String s){
