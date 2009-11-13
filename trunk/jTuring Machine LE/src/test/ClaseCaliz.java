@@ -12,6 +12,7 @@ package test;
 public class ClaseCaliz {
 
     private static String saludo= "HOLA";
+    private int contador=0;
 
     ClaseCaliz(String s){
         saludo=s;
