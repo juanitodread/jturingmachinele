@@ -11,6 +11,6 @@ package test;
  */
 public class Test {
     public static void main(String[] args){
-        System.out.println(ClaseCaliz.getSaludo());
+        System.out.println("hola");
     }
 }
