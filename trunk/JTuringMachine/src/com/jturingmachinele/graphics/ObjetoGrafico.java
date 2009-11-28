@@ -9,7 +9,16 @@ import java.awt.Graphics;
 import java.io.Serializable;
 
 public abstract class ObjetoGrafico implements Serializable{
-    
+
+    private int id;
+
+    public int getId(){
+        return id;
+    }
+    public void setId(int id){
+        this.id = id;
+    }
+
     /**
      * Método que dibuja una figura
      * @param g

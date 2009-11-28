@@ -15,4 +15,14 @@ public class EstadoFinal extends Estado implements Serializable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public void exitar() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void desexitar() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
