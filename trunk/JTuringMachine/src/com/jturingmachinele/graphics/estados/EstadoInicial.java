@@ -1,36 +1,101 @@
-/**
+/*
+ * @(#)EstadoInicial.java	1.0 20/01/2010
  *
- * @author Juan Sandoval
+ * TODOS LOS DERECHOS RESERVADOS PARA LOS DESARROLLADORES DEL PROYECTO jTuringMachine.
  */
-
 package com.jturingmachinele.graphics.estados;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.io.Serializable;
 
+/**
+ * Clase que representa un <code>EstadoInicial</code>, solo puede haber un
+ * estado inicial por lo tanto la clase implementa el patron <b>Singleton</b>
+ * para que solo exista un <code>EstadoInicial</code>.
+ *
+ * @author jsandoval
+ * @version 1.0
+ */
 public class EstadoInicial extends Estado implements Serializable {
 
-    public EstadoInicial(){
-    }
-
-    public EstadoInicial(Point xy){
+    private static EstadoInicial INSTANCIA = null;
+    private static final long serialVersionUID = 1l;
+    private Color exitado = Color.BLACK;
+    /**
+     * Constructor del <code>EstadoInicial</code>.
+     * @param xy Posición de la coordenada de la esquina superior izquierda del rectangulo
+     * donde se dibujará el <code>EstadoInicial</code>.
+     * @param etiqueta Nombre que se le dará al <code>EstadoInicial</code>.
+     */
+    private EstadoInicial(Point xy, String etiqueta){
         this.setCoordenadaXY(xy);
+        this.setEtiqueta(etiqueta);
+        this.delimitarArea();
+        this.formarPuertos();
     }
 
+    /**
+     * Metodo sincronizado que crea una instancia unica del <code>EstadoInicial</code>.
+     * @param xy Posición de la coordenada de la esquina superior izquierda del rectangulo
+     * donde se dibujará el <code>EstadoInicial</code>.
+     * @param etiqueta Nombre que se le dará al <code>EstadoInicial</code>.
+     */
+    private static synchronized void crearInstancia(Point xy, String etiqueta){
+        if(INSTANCIA == null){
+            INSTANCIA = new EstadoInicial(xy, etiqueta);
+        }
+    }
+
+    /**
+     * Obtiene una instancia de <code>EstadoInicial</code>, si no existe crea uno
+     * nuevo, si ya existe una instancia solo la retorna debido a que solo puede
+     * existir un <code>EstadoInicial</code>.
+     * @param xy Posición de la coordenada de la esquina superior izquierda del rectangulo
+     * donde se dibujará el <code>EstadoInicial</code>.
+     * @param etiqueta Nombre que se le dará al <code>EstadoInicial</code>.
+     * @return Una instancia de <code>EstadoInicial</code>.
+     */
+    public static EstadoInicial getInstancia(Point xy, String etiqueta){
+        if(INSTANCIA == null){
+            crearInstancia(xy, etiqueta);
+        }
+        return INSTANCIA;
+    }
+
+    /**
+     * Dibuja un <code>EstadoInicial</code> en la posición establecida y con su
+     * etiqueta definida.
+     * @param g Objeto de tipo Graphics que permite dibujar gráficos.
+     */
     @Override
     public void dibujar(Graphics g) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        g.setColor(exitado);
+        //Dibujo el circulo
+        g.drawOval(this.getCoordenadaXY().x, this.getCoordenadaXY().y,
+                   EstadoInicial.RADIO * 2, EstadoInicial.RADIO * 2);
+        //Dibujo la flecha
+        g.drawLine(this.getCoordenadaXY().x - 20, this.getCentroXY().y,
+                   this.getCoordenadaXY().x, this.getCentroXY().y);
+        g.drawLine(this.getCoordenadaXY().x, this.getCentroXY().y,
+                   this.getCoordenadaXY().x - 5, this.getCentroXY().y - 5);
+        g.drawLine(this.getCoordenadaXY().x, this.getCentroXY().y,
+                   this.getCoordenadaXY().x - 5, this.getCentroXY().y + 5);
+        //Dibujo la Etiqueta
+        g.drawString(this.getEtiqueta(),
+                     this.getCentroXY().x - 7,
+                     this.getCentroXY().y + 5);
     }
 
     @Override
     public void exitar() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        exitado = Color.BLUE;
     }
 
     @Override
     public void desexitar() {
-        throw new UnsupportedOperationException("Not supported yet.");
+         exitado = Color.BLACK;
     }
 
 }
