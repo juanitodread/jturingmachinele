@@ -27,6 +27,7 @@ public abstract class ObjetoGrafico implements Serializable{
     public int getId(){
         return id;
     }
+
     /**
      * Establece el Id del objeto gráfico.
      * @param id del objeto gráfico en cuestión.
