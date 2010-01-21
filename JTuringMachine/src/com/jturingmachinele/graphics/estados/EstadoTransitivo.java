@@ -59,7 +59,7 @@ public class EstadoTransitivo extends Estado implements Serializable {
         g.setColor(exitado);
         //Dibujo el circulo
         g.drawOval(getCoordenadaXY().x, getCoordenadaXY().y,
-                   EstadoInicial.RADIO * 2, EstadoInicial.RADIO * 2);
+                   EstadoTransitivo.RADIO * 2, EstadoTransitivo.RADIO * 2);
         //Dibujo la Etiqueta
         g.drawString(getEtiqueta(),
                      getCentroXY().x - 7,
