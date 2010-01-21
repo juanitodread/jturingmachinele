@@ -23,6 +23,7 @@ public class EstadoInicial extends Estado implements Serializable {
     private static EstadoInicial INSTANCIA = null;
     private static final long serialVersionUID = 1l;
     private Color exitado = Color.BLACK;
+    
     /**
      * Constructor del <code>EstadoInicial</code>.
      * @param xy Posición de la coordenada de la esquina superior izquierda del rectangulo
@@ -88,11 +89,19 @@ public class EstadoInicial extends Estado implements Serializable {
                      this.getCentroXY().y + 5);
     }
 
+    /**
+     * Cambia el estatus a "Exitado" y asigna un color RGB={228,109,10} al
+     * <code>EstadoInicial</code>.
+     */
     @Override
     public void exitar() {
-        exitado = Color.BLUE;
+        exitado = new Color(228, 109, 10);
     }
 
+    /**
+     * Cambia el estatus a "Desexitado" y asigna un color Negro al
+     * <code>EstadoInicial</code>.
+     */
     @Override
     public void desexitar() {
          exitado = Color.BLACK;
