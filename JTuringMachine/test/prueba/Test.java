@@ -5,7 +5,10 @@
 
 package prueba;
 
+import com.jturingmachinele.graphics.ObjetoGrafico;
+import com.jturingmachinele.graphics.estados.Estado;
 import com.jturingmachinele.graphics.estados.EstadoFinal;
+import com.jturingmachinele.graphics.estados.EstadoInicial;
 import java.awt.Point;
 
 
@@ -20,8 +23,9 @@ public class Test {
        b = new Point(10,10);
        c = new Point();
        c.setLocation( b.getX() - a.getX(), b.getY() - a.getY());
-       System.out.println(c);
-       EstadoFinal abb;
+       
 
+       FramePrueba app = new FramePrueba();
+       app.setVisible(true);
    }
 }
