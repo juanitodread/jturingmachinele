@@ -72,6 +72,22 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
     public abstract void desexitar();
 
     /**
+     * Determina si el raton se encuentra sobre algun <code>Estado</code>, si es
+     * así retorna un <code>True</code>, sino retorna un <code>False</code>.
+     * @param x Posición en el eje "X" del Raton.
+     * @param y Posición en el eje "Y" del Raton.
+     * @return <code>True</code> si está sobre el <code>Estado</code>,
+     * <code>False</code> si no es así.
+     */
+    public boolean isFlotando(int x, int y){
+        if( x >= coordenadaXY.x && x <= coordenadaX1Y.x && y >= coordenadaXY.y && y <= coordenadaXY1.y){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
      * Obtiene la coordenada de la esquina superior izquierda del rectangulo que
      * envuelve al Estado.
      * @return El punto donde esta la esquina superior izquierda.
