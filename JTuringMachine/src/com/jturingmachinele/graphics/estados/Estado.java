@@ -13,7 +13,7 @@ import java.io.Serializable;
  * Clase abstracta que permite definir los métodos y atributos de un estado en el lienzo
  * y de la cual heredaran los distintos tipos de Estados.
  *
- * @author jsandoval
+ * @author Juan Sandoval
  * @version 1.0
  */
 public abstract class Estado extends ObjetoGrafico implements Serializable {
@@ -80,11 +80,8 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
      * <code>False</code> si no es así.
      */
     public boolean isFlotando(int x, int y){
-        if( x >= coordenadaXY.x && x <= coordenadaX1Y.x && y >= coordenadaXY.y && y <= coordenadaXY1.y){
-            return true;
-        }else{
-            return false;
-        }
+        return ( x >= coordenadaXY.x && x <= coordenadaX1Y.x &&
+                 y >= coordenadaXY.y && y <= coordenadaXY1.y ? true : false );
     }
 
     /**
@@ -115,15 +112,15 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
         return coordenadaX1Y;
     }
 
-    /**
-     * Establece la coordenada de la esquina superior derecha del rectangulo
-     * que envuelve al Estado.
-     * @param coordenadaX1Y El punto (X,Y) que será la posición de la esquina
-     * superior derecha del rectangulo.
-     */
-    public void setCoordenadaX1Y(Point coordenadaX1Y) {
-        this.coordenadaX1Y = coordenadaX1Y;
-    }
+//    /**
+//     * Establece la coordenada de la esquina superior derecha del rectangulo
+//     * que envuelve al Estado.
+//     * @param coordenadaX1Y El punto (X,Y) que será la posición de la esquina
+//     * superior derecha del rectangulo.
+//     */
+//    public void setCoordenadaX1Y(Point coordenadaX1Y) {
+//        this.coordenadaX1Y = coordenadaX1Y;
+//    }
 
     /**
     * Obtiene la coordenada de la esquina inferior izquierda del rectangulo que
@@ -134,15 +131,15 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
         return coordenadaXY1;
     }
 
-    /**
-     * Establece la coordenada de la esquina inferior izquierda del rectangulo
-     * que envuelve al Estado.
-     * @param coordenadaXY1 El punto (X,Y) que será la posición de la esquina
-     * inferior izquierda del rectangulo.
-     */
-    public void setCoordenadaXY1(Point coordenadaXY1) {
-        this.coordenadaXY1 = coordenadaXY1;
-    }
+//    /**
+//     * Establece la coordenada de la esquina inferior izquierda del rectangulo
+//     * que envuelve al Estado.
+//     * @param coordenadaXY1 El punto (X,Y) que será la posición de la esquina
+//     * inferior izquierda del rectangulo.
+//     */
+//    public void setCoordenadaXY1(Point coordenadaXY1) {
+//        this.coordenadaXY1 = coordenadaXY1;
+//    }
 
     /**
     * Obtiene la coordenada de la esquina inferior derecha del rectangulo que
@@ -153,15 +150,15 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
         return coordenadaX1Y1;
     }
 
-    /**
-     * Establece la coordenada de la esquina inferior derecha del rectangulo
-     * que envuelve al Estado.
-     * @param coordenadaX1Y1 El punto (X,Y) que será la posición de la esquina
-     * inferior derecha del rectangulo.
-     */
-    public void setCoordenadaX1Y1(Point coordenadaX1Y1) {
-        this.coordenadaX1Y1 = coordenadaX1Y1;
-    }
+//    /**
+//     * Establece la coordenada de la esquina inferior derecha del rectangulo
+//     * que envuelve al Estado.
+//     * @param coordenadaX1Y1 El punto (X,Y) que será la posición de la esquina
+//     * inferior derecha del rectangulo.
+//     */
+//    public void setCoordenadaX1Y1(Point coordenadaX1Y1) {
+//        this.coordenadaX1Y1 = coordenadaX1Y1;
+//    }
 
     /**
      * Obtiene la coordenada del centro del Estado de acuerdo a la posición
@@ -172,15 +169,15 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
         return centroXY;
     }
 
-    /**
-     * Establece la coordenada del centro del Estado de acuerdo a la posición
-     * en la que esta con respecto al lienzo.
-     * @param centroXY Coordenada (X,Y) que será la posición del centro del
-     * estado.
-     */
-    public void setCentroXY(Point centroXY) {
-        this.centroXY = centroXY;
-    }
+//    /**
+//     * Establece la coordenada del centro del Estado de acuerdo a la posición
+//     * en la que esta con respecto al lienzo.
+//     * @param centroXY Coordenada (X,Y) que será la posición del centro del
+//     * estado.
+//     */
+//    public void setCentroXY(Point centroXY) {
+//        this.centroXY = centroXY;
+//    }
 
     /**
      * Obtiene un arreglo de Point's con la posición de los puntos donde se
@@ -191,15 +188,15 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
         return puertos;
     }
 
-    /**
-     * Estable un arreglo de Point's con la posición de los puntos donde se
-     * encuentran los puertos a los que pueden llegar o salir las transacciones.
-     * @param puertos Arreglo de tamaño 16 que contiene <code>Point</code> con
-     * las coordenadas de los puertos de salida o entrada de alguna Transaccion.
-     */
-    public void setPuertos(Point[] puertos) {
-        this.puertos = puertos;
-    }
+//    /**
+//     * Estable un arreglo de Point's con la posición de los puntos donde se
+//     * encuentran los puertos a los que pueden llegar o salir las transacciones.
+//     * @param puertos Arreglo de tamaño 16 que contiene <code>Point</code> con
+//     * las coordenadas de los puertos de salida o entrada de alguna Transaccion.
+//     */
+//    public void setPuertos(Point[] puertos) {
+//        this.puertos = puertos;
+//    }
 
     /**
      * Obtiene la etiqueta (Nombre) del estado en cuestión.
