@@ -15,7 +15,7 @@ import java.io.Serializable;
  * estado inicial por lo tanto la clase implementa el patron <b>Singleton</b>
  * para que solo exista un <code>EstadoInicial</code>.
  *
- * @author jsandoval
+ * @author Juan Sandoval
  * @version 1.0
  */
 public class EstadoInicial extends Estado implements Serializable {
@@ -31,10 +31,10 @@ public class EstadoInicial extends Estado implements Serializable {
      * @param etiqueta Nombre que se le dará al <code>EstadoInicial</code>.
      */
     private EstadoInicial(Point xy, String etiqueta){
-        this.setCoordenadaXY(xy);
-        this.setEtiqueta(etiqueta);
-        this.delimitarArea();
-        this.formarPuertos();
+        setCoordenadaXY(xy);
+        setEtiqueta(etiqueta);
+        delimitarArea();
+        formarPuertos();
     }
 
     /**
@@ -74,19 +74,19 @@ public class EstadoInicial extends Estado implements Serializable {
     public void dibujar(Graphics g) {
         g.setColor(exitado);
         //Dibujo el circulo
-        g.drawOval(this.getCoordenadaXY().x, this.getCoordenadaXY().y,
+        g.drawOval(getCoordenadaXY().x, getCoordenadaXY().y,
                    EstadoInicial.RADIO * 2, EstadoInicial.RADIO * 2);
         //Dibujo la flecha
-        g.drawLine(this.getCoordenadaXY().x - 20, this.getCentroXY().y,
-                   this.getCoordenadaXY().x, this.getCentroXY().y);
-        g.drawLine(this.getCoordenadaXY().x, this.getCentroXY().y,
-                   this.getCoordenadaXY().x - 5, this.getCentroXY().y - 5);
-        g.drawLine(this.getCoordenadaXY().x, this.getCentroXY().y,
-                   this.getCoordenadaXY().x - 5, this.getCentroXY().y + 5);
+        g.drawLine(getCoordenadaXY().x - 20, getCentroXY().y,
+                   getCoordenadaXY().x, getCentroXY().y);
+        g.drawLine(getCoordenadaXY().x, getCentroXY().y,
+                   getCoordenadaXY().x - 5, getCentroXY().y - 5);
+        g.drawLine(getCoordenadaXY().x, getCentroXY().y,
+                   getCoordenadaXY().x - 5, getCentroXY().y + 5);
         //Dibujo la Etiqueta
-        g.drawString(this.getEtiqueta(),
-                     this.getCentroXY().x - 7,
-                     this.getCentroXY().y + 5);
+        g.drawString(getEtiqueta(),
+                     getCentroXY().x - 7,
+                     getCentroXY().y + 5);
     }
 
     /**
@@ -96,6 +96,7 @@ public class EstadoInicial extends Estado implements Serializable {
     @Override
     public void exitar() {
         exitado = new Color(228, 109, 10);
+        setExitado(true);
     }
 
     /**
@@ -105,6 +106,7 @@ public class EstadoInicial extends Estado implements Serializable {
     @Override
     public void desexitar() {
          exitado = Color.BLACK;
+         setExitado(false);
     }
 
 }
