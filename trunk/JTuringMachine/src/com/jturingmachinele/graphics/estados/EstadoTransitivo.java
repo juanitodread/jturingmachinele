@@ -30,8 +30,6 @@ public class EstadoTransitivo extends Estado implements Serializable {
     public EstadoTransitivo(){
         setCoordenadaXY(new Point(5, 5));
         setEtiqueta("");
-        delimitarArea();
-        formarPuertos();
     }
 
     /**
@@ -45,8 +43,6 @@ public class EstadoTransitivo extends Estado implements Serializable {
     public EstadoTransitivo(Point xy, String etiqueta){
         setCoordenadaXY(xy);
         setEtiqueta(etiqueta);
-        delimitarArea();
-        formarPuertos();
     }
 
     /**
@@ -68,7 +64,7 @@ public class EstadoTransitivo extends Estado implements Serializable {
 
     /**
      * Cambia el estatus a "Exitado" y asigna un color RGB={49, 132, 155} al
-     * <code>EstadoInicial</code>.
+     * <code>EstadoTransitivo</code>.
      */
     @Override
     public void exitar() {
@@ -78,7 +74,7 @@ public class EstadoTransitivo extends Estado implements Serializable {
 
     /**
      * Cambia el estatus a "Desexitado" y asigna un color Negro al
-     * <code>EstadoInicial</code>.
+     * <code>EstadoTransitivo</code>.
      */
     @Override
     public void desexitar() {
