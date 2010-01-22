@@ -31,8 +31,6 @@ public class EstadoFinal extends Estado implements Serializable {
     public EstadoFinal (){
         setCoordenadaXY(new Point(5,5));
         setEtiqueta("");
-        delimitarArea();
-        formarPuertos();
     }
 
     /**
@@ -46,8 +44,6 @@ public class EstadoFinal extends Estado implements Serializable {
     public EstadoFinal(Point xy, String etiqueta){
         setCoordenadaXY(xy);
         setEtiqueta(etiqueta);
-        delimitarArea();
-        formarPuertos();
     }
 
     /**
