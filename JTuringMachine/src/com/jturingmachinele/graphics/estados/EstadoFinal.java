@@ -15,7 +15,7 @@ import java.io.Serializable;
  * Clase que representa un <code>EstadoFinal</code>,  pueden existir "n" cantidad
  * de estados finales.
  *
- * @author msena
+ * @author Marcela Sena
  * @version 1.0
  */
 public class EstadoFinal extends Estado implements Serializable {
