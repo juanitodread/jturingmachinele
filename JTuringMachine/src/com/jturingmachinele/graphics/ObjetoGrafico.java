@@ -1,5 +1,5 @@
 /*
- * @(#)ObjetoGrafico.java	1.0 19/01/2010
+ * @(#)ObjetoGrafico.java	1.0 21/01/2010
  *
  * TODOS LOS DERECHOS RESERVADOS PARA LOS DESARROLLADORES DEL PROYECTO jTuringMachine.
  */
@@ -7,6 +7,7 @@ package com.jturingmachinele.graphics;
 
 import java.awt.Graphics;
 import java.io.Serializable;
+import java.util.Observable;
 
 /**
  * Clase Abstracta de la cual heredarán todas las demas figuras.
@@ -15,7 +16,7 @@ import java.io.Serializable;
  * @author Juan Sandoval
  * @version 1.0
  */
-public abstract class ObjetoGrafico implements Serializable{
+public abstract class ObjetoGrafico extends Observable implements Serializable{
 
     private static final long serialVersionUID = 1l; //Id de versión del objeto serializado.
     private int id;
