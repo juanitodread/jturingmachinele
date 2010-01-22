@@ -35,7 +35,7 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
      * que envuelve al objeto, todo esto de acuerdo a la posición en que
      * se encuentre su esquina superior izquierda en dicho momento.
      */
-    public void delimitarArea(){
+    private void delimitarArea(){
         coordenadaX1Y.setLocation(coordenadaXY.x + 2 * RADIO,
                                   coordenadaXY.y);
         coordenadaXY1.setLocation(coordenadaXY.x,
@@ -44,13 +44,14 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
                                    coordenadaXY.y + 2 * RADIO);
         centroXY.setLocation(coordenadaXY.x + RADIO,
                              coordenadaXY.y + RADIO);
+        formarPuertos();
     }
 
     /**
      * Define los 16 puertos en donde pueden llegar las transiciones,
      * en el momento de la posición actual del estado.
      */
-    public void formarPuertos(){
+    private void formarPuertos(){
         double anguloConstante = Math.PI / 8;
         for(int i = 0; i < 16; i++){
             double radian = anguloConstante * i;
@@ -101,6 +102,9 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
      */
     public void setCoordenadaXY(Point coordenadaXY) {
         this.coordenadaXY = coordenadaXY;
+        delimitarArea();
+        setChanged();
+        this.notifyObservers();
     }
 
      /**
