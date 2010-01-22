@@ -33,8 +33,6 @@ public class EstadoInicial extends Estado implements Serializable {
     private EstadoInicial(Point xy, String etiqueta){
         setCoordenadaXY(xy);
         setEtiqueta(etiqueta);
-        delimitarArea();
-        formarPuertos();
     }
 
     /**
