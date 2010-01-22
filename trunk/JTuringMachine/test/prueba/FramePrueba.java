@@ -11,7 +11,13 @@
 
 package prueba;
 
+import com.jturingmachinele.graphics.estados.Estado;
+import com.jturingmachinele.graphics.estados.EstadoFinal;
 import com.jturingmachinele.graphics.estados.EstadoInicial;
+import com.jturingmachinele.graphics.estados.EstadoTransitivo;
+import com.jturingmachinele.graphics.transiciones.Transicion;
+import com.jturingmachinele.graphics.transiciones.TransicionRecta;
+import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -25,10 +31,21 @@ import javax.swing.JOptionPane;
 public class FramePrueba extends javax.swing.JFrame {
 EstadoInicial ei = null;
 boolean band = false;
+EstadoTransitivo et = null;
+EstadoFinal fin = null;
+TransicionRecta tran = null;
+TransicionRecta tran2 = null;
+
     /** Creates new form FramePrueba */
     public FramePrueba() {
         initComponents();
         ei = EstadoInicial.getInstancia(new Point(150,150), "q1");
+        et = new EstadoTransitivo(new Point(250,250), "q2");
+        //Estado estado = ei;
+        fin = new EstadoFinal(new Point(150,250), "q2");
+        tran = new TransicionRecta(ei, et, "q2");
+        tran2 = new TransicionRecta(ei, fin, "q3");
+        //TransicionRecta obj = new TransicionRecta(ei, ei);
     }
 
     /** This method is called from within the constructor to
@@ -42,8 +59,11 @@ boolean band = false;
 
         jButton1 = new javax.swing.JButton();
         jToggleButton1 = new javax.swing.JToggleButton();
+        jButton2 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 formMouseDragged(evt);
@@ -67,16 +87,41 @@ boolean band = false;
             }
         });
 
+        jButton2.setText("jButton1");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 410, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 273, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(31, 31, 31)
-                .addComponent(jToggleButton1)
-                .addContainerGap(253, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(31, 31, 31)
+                        .addComponent(jToggleButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,8 +129,11 @@ boolean band = false;
                 .addContainerGap(17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jToggleButton1))
-                .addGap(295, 295, 295))
+                    .addComponent(jToggleButton1)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -98,8 +146,6 @@ boolean band = false;
             int x = Integer.parseInt(JOptionPane.showInputDialog(this, "x"));
             int y = Integer.parseInt(JOptionPane.showInputDialog(this, "y"));
             ei.setCoordenadaXY(new Point(x,y));
-            ei.delimitarArea();
-            ei.formarPuertos();
             this.repaint();
         //}
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -108,9 +154,13 @@ boolean band = false;
         // TODO add your handling code here:
         if(jToggleButton1.isSelected()){
             ei.exitar();
+            et.exitar();
+            fin.exitar();
             this.repaint();
         }else{
             ei.desexitar();
+            et.desexitar();
+            fin.desexitar();
             this.repaint();
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
@@ -130,12 +180,16 @@ boolean banderaDOS = true;
         if(banderaMov){
             if(banderaDOS){
                 ei.exitar();
+                et.exitar();
+                fin.exitar();
                 this.repaint();
             }
             banderaDOS = false;
         }
         if(!banderaMov && !banderaDOS){
             ei.desexitar();
+            et.desexitar();
+            fin.desexitar();
             this.repaint();
             banderaDOS = true;
         }
@@ -162,21 +216,30 @@ boolean bandera = false;
         }
         if(bandera){
             ei.setCoordenadaXY(new Point(evt.getX() - EstadoInicial.RADIO, evt.getY() - EstadoInicial.RADIO));
-            ei.delimitarArea();
-            ei.formarPuertos();
             this.repaint();
         }
 
     }//GEN-LAST:event_formMouseDragged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     @Override
     public void paint(Graphics g){
         super.paint(g);
         Graphics2D g2d=(Graphics2D)g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                             RenderingHints.VALUE_ANTIALIAS_ON);
         //g2d.scale(2, 2);
+        g2d.setStroke (new BasicStroke(1.2f));
         ei.dibujar(g);
+        et.dibujar(g);
+        fin.dibujar(g);
+        tran.dibujar(g);
+        tran2.dibujar(g);
     }
 
 
@@ -193,6 +256,8 @@ boolean bandera = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 
