@@ -16,6 +16,7 @@ import com.jturingmachinele.graphics.estados.EstadoFinal;
 import com.jturingmachinele.graphics.estados.EstadoInicial;
 import com.jturingmachinele.graphics.estados.EstadoTransitivo;
 import com.jturingmachinele.graphics.transiciones.Transicion;
+import com.jturingmachinele.graphics.transiciones.TransicionCiclo;
 import com.jturingmachinele.graphics.transiciones.TransicionRecta;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
@@ -35,6 +36,7 @@ EstadoTransitivo et = null;
 EstadoFinal fin = null;
 TransicionRecta tran = null;
 TransicionRecta tran2 = null;
+TransicionCiclo tranC = null;
 
     /** Creates new form FramePrueba */
     public FramePrueba() {
@@ -45,6 +47,7 @@ TransicionRecta tran2 = null;
         fin = new EstadoFinal(new Point(150,250), "q2");
         tran = new TransicionRecta(ei, et, "q2");
         tran2 = new TransicionRecta(ei, fin, "q3");
+        tranC = new TransicionCiclo(ei,et,"aDx");
         //TransicionRecta obj = new TransicionRecta(ei, ei);
     }
 
@@ -240,6 +243,7 @@ boolean bandera = false;
         fin.dibujar(g);
         tran.dibujar(g);
         tran2.dibujar(g);
+        tranC.dibujar(g);
     }
 
 
