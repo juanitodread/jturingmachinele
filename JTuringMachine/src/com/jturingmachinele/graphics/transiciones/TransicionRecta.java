@@ -1,8 +1,4 @@
-/*
- * @(#)TransicionRecta.java	1.0 22/01/2010
- *
- * TODOS LOS DERECHOS RESERVADOS PARA LOS DESARROLLADORES DEL PROYECTO jTuringMachine.
- */
+
 package com.jturingmachinele.graphics.transiciones;
 
 import com.jturingmachinele.graphics.estados.Estado;
