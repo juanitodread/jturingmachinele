@@ -50,11 +50,11 @@ public class TransicionCiclo extends Transicion implements Serializable {
     public void dibujar(Graphics g) {
         g.setColor(Color.BLACK);
         Point [] puertoCiclo = getNodoInicial().getPuertos();
-        Point puertoSalida = puertoCiclo[11].getLocation();
+        Point puertoSalida = puertoCiclo[10].getLocation();
         //Point puertoLlegada = puertoCiclo[14].getLocation();
-        g.drawArc(puertoSalida.x, puertoSalida.y - 30, 30, 30, 300, 300);
-        dibujarFlecha(g, puertoSalida.x + 60, puertoSalida.y - 50, puertoSalida.x + 20, puertoSalida.y);
-        g.drawString(getEtiqueta(), puertoSalida.x + 5, puertoSalida.y - 35);
+        g.drawArc(puertoSalida.x, puertoSalida.y - 35, 35, 35, 320, 270);
+        dibujarFlecha(g, puertoSalida.x + 60, puertoSalida.y - 50, puertoSalida.x + 29, puertoSalida.y - 5);
+        g.drawString(getEtiqueta(), puertoSalida.x + 7, puertoSalida.y - 40);
     }
 
     private void dibujarFlecha(Graphics g, int x1, int y1, int x2, int y2){
