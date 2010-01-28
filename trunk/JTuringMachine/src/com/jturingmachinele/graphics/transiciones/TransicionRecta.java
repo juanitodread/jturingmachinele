@@ -1,4 +1,8 @@
-
+/*
+ * @(#)TransicionRecta.java	1.0 22/01/2010
+ *
+ * TODOS LOS DERECHOS RESERVADOS PARA LOS DESARROLLADORES DEL PROYECTO jTuringMachine.
+ */
 package com.jturingmachinele.graphics.transiciones;
 
 import com.jturingmachinele.graphics.estados.Estado;
@@ -16,6 +20,15 @@ import java.util.Observable;
  * @version 1.0
  */
 public class TransicionRecta extends Transicion implements Serializable{
+
+    /**
+     * No utilizar
+     *
+     * @deprecated No utilizar 
+     */
+    public TransicionRecta(){
+        super(null, null, null);
+    }
 
     private static final long serialVersionUID = 1l;
     /**
