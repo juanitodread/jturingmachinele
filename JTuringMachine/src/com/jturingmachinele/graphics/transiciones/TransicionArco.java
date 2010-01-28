@@ -12,6 +12,15 @@ import java.util.Observable;
 
 public class TransicionArco extends Transicion implements Serializable {
 
+    /**
+     * No utilizar
+     *
+     * @deprecated No utilizar
+     */
+    public TransicionArco(){
+         super(null, null, null);
+    }
+
     public TransicionArco(Estado nodoInicial, Estado nodoFinal, String etiqueta){
         super(nodoInicial, nodoFinal, etiqueta);
     }
