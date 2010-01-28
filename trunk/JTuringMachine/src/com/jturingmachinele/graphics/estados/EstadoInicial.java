@@ -23,7 +23,15 @@ public class EstadoInicial extends Estado implements Serializable {
     private static EstadoInicial INSTANCIA = null;
     private static final long serialVersionUID = 1l;
     private Color exitado = Color.BLACK;
-    
+
+    /**Se utilizaba cuando no era un singleton, ahora ya lo es, por lo tanto
+     * no se debe usar.
+     *
+     * @deprecated No utilizar dado que es un singleton
+     */
+    public EstadoInicial(){
+    }
+
     /**
      * Constructor del <code>EstadoInicial</code>.
      * @param xy Posición de la coordenada de la esquina superior izquierda del rectangulo
