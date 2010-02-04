@@ -100,6 +100,15 @@ public class Lienzo extends JPanel implements IMemento{
     }
 
     /**
+     *
+     * @param obj
+     */
+    public void setObjetosGraficos(ArrayList<ObjetoGrafico> obj){
+        objetosGraficos = obj;
+        repaint();
+    }
+
+    /**
      * Agrega un <code>ObjetoGrafico</code> al lienzo para que pueda ser dibujado.
      * @param obj Objeto grafico que será dibujado en el lienzo.
      */
