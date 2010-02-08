@@ -25,9 +25,13 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
     private Point coordenadaX1Y1 = new Point(0,0);
     private Point centroXY = new Point(0,0);
     private Point[] puertos = new Point[16];
-    public static final int RADIO = 25;
     private String etiqueta;
     private boolean exitado = false;
+    private boolean moving = false;
+    /**
+     * Radio que tienen los estados, su valor es 25,
+     */
+    public static final int RADIO = 25;
 
     /**
      * Delimita el rectangulo de un objeto tipo <code>Estado.</code>
@@ -235,6 +239,26 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
      */
     public void setExitado(boolean exitado) {
         this.exitado = exitado;
+    }
+
+    /**
+     * Verifica si el <code>Estado</code> esta siendo movido por el puntero del
+     * ratón.
+     * @return <code>true</code> si está siendo movido, y <code>false</code> si
+     * no está siendo movido.
+     */
+    public boolean isMoving(){
+        return moving;
+    }
+
+    /**
+     * Establece el estatus de movimiento para el <code>Estado</code>.
+     * @param moving Representa el movimiento del <code>Estado</code>, y deberá
+     * ser <code>true</code> si está siendo movido, y <code>false</code> si
+     * no está siendo movido.
+     */
+    public void setMoving(boolean moving){
+        this.moving = moving;
     }
 
     /**
