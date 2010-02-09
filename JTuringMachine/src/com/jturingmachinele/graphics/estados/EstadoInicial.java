@@ -59,14 +59,11 @@ public class EstadoInicial extends Estado implements Serializable {
      * Obtiene una instancia de <code>EstadoInicial</code>, si no existe crea uno
      * nuevo, si ya existe una instancia solo la retorna debido a que solo puede
      * existir un <code>EstadoInicial</code>.
-     * @param xy Posición de la coordenada de la esquina superior izquierda del rectangulo
-     * donde se dibujará el <code>EstadoInicial</code>.
-     * @param etiqueta Nombre que se le dará al <code>EstadoInicial</code>.
      * @return Una instancia de <code>EstadoInicial</code>.
      */
-    public static EstadoInicial getInstancia(Point xy, String etiqueta){
+    public static EstadoInicial getInstancia(){
         if(INSTANCIA == null){
-            crearInstancia(xy, etiqueta);
+            crearInstancia(new Point(50, 250), "q1");
         }
         return INSTANCIA;
     }
