@@ -7,6 +7,7 @@ package com.jturingmachinele.visual.componentes;
 
 import com.jturingmachinele.graphics.ObjetoGrafico;
 import com.jturingmachinele.graphics.estados.Estado;
+import com.jturingmachinele.graphics.estados.EstadoInicial;
 import com.jturingmachinele.graphics.transiciones.Transicion;
 import com.jturingmachinele.util.IMemento;
 import java.awt.BasicStroke;
@@ -28,12 +29,13 @@ public class Lienzo extends JPanel implements IMemento{
 
     private ArrayList<ObjetoGrafico> objetosGraficos;
     private CaretakerLienzo caretaker;
-
+    //private EstadoInicial estadoInicial;
     /**
      * Crea el lienzo y lo configura con ciertas propiedades de inicio.
      */
     public Lienzo(){
         objetosGraficos = new ArrayList<ObjetoGrafico>();
+        objetosGraficos.add(EstadoInicial.getInstancia());
         setBackground(Color.WHITE);
         setMaximumSize(new Dimension(1330, 1000));
         setPreferredSize(new Dimension(1330, 1000));
@@ -54,7 +56,7 @@ public class Lienzo extends JPanel implements IMemento{
         g2d.scale(1.0, 1.0);
         g2d.setStroke (new BasicStroke(1.5f));
         for(ObjetoGrafico obj : objetosGraficos){
-            obj.dibujar(g);
+            obj.dibujar(g2d);
         }
     }
 
@@ -198,4 +200,14 @@ public class Lienzo extends JPanel implements IMemento{
         caretaker.addMemento((MementoLienzo) getMemento());
         repaint();
     }
+    /**
+     * Limpia el lienzo, elimina todos los objetos que contiene.
+     */
+    public void limpiar(){
+        objetosGraficos = new ArrayList<ObjetoGrafico>();
+        caretaker = new CaretakerLienzo();
+        objetosGraficos.add(EstadoInicial.getInstancia());
+        repaint();
+    }
+
 }
