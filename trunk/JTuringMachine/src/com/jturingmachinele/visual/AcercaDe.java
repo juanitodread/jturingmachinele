@@ -39,6 +39,7 @@ public class AcercaDe extends javax.swing.JDialog {
     private void initComponents() {
 
         pnlNorte = new javax.swing.JPanel();
+        lblImagen = new javax.swing.JLabel();
         pnlSur = new javax.swing.JPanel();
         btnCerrar = new javax.swing.JButton();
         pnlCentro = new javax.swing.JPanel();
@@ -52,20 +53,13 @@ public class AcercaDe extends javax.swing.JDialog {
         setMinimumSize(new java.awt.Dimension(435, 376));
         setResizable(false);
 
-        pnlNorte.setBackground(new java.awt.Color(102, 102, 102));
         pnlNorte.setMaximumSize(new java.awt.Dimension(435, 100));
         pnlNorte.setMinimumSize(new java.awt.Dimension(435, 100));
+        pnlNorte.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout pnlNorteLayout = new javax.swing.GroupLayout(pnlNorte);
-        pnlNorte.setLayout(pnlNorteLayout);
-        pnlNorteLayout.setHorizontalGroup(
-            pnlNorteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 521, Short.MAX_VALUE)
-        );
-        pnlNorteLayout.setVerticalGroup(
-            pnlNorteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        lblImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/banner_jtm.png"))); // NOI18N
+        pnlNorte.add(lblImagen, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(pnlNorte, java.awt.BorderLayout.PAGE_START);
 
@@ -119,7 +113,7 @@ public class AcercaDe extends javax.swing.JDialog {
         );
         pnlLimiteCentroIzLayout.setVerticalGroup(
             pnlLimiteCentroIzLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 251, Short.MAX_VALUE)
+            .addGap(0, 226, Short.MAX_VALUE)
         );
 
         pnlCentro.add(pnlLimiteCentroIz, java.awt.BorderLayout.LINE_START);
@@ -132,7 +126,7 @@ public class AcercaDe extends javax.swing.JDialog {
         );
         pnlLimiteCentroDerLayout.setVerticalGroup(
             pnlLimiteCentroDerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 251, Short.MAX_VALUE)
+            .addGap(0, 226, Short.MAX_VALUE)
         );
 
         pnlCentro.add(pnlLimiteCentroDer, java.awt.BorderLayout.LINE_END);
@@ -168,6 +162,7 @@ public class AcercaDe extends javax.swing.JDialog {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblAcercaDe;
+    private javax.swing.JLabel lblImagen;
     private javax.swing.JPanel pnlCentro;
     private javax.swing.JPanel pnlLimiteCentroDer;
     private javax.swing.JPanel pnlLimiteCentroIz;
