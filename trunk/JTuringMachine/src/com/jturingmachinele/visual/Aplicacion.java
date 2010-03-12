@@ -422,7 +422,8 @@ public class Aplicacion extends javax.swing.JFrame {
         } catch (IllegalAccessException ex) {
             ex.printStackTrace();
         } catch (UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Apariencia no disponible en este sistema operatívo.",
+                                          "jTuringMachine", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Apariencia no disponible en este sistema operatívo.",
                                           "jTuringMachine", JOptionPane.ERROR_MESSAGE);
