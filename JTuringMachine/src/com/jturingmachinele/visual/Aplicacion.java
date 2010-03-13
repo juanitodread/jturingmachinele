@@ -10,6 +10,7 @@ import com.jturingmachinele.graphics.ObjetoGrafico;
 import com.jturingmachinele.graphics.estados.Estado;
 import com.jturingmachinele.graphics.estados.EstadoInicial;
 import com.jturingmachinele.graphics.estados.EstadoTransitivo;
+import com.jturingmachinele.graphics.transiciones.Transicion;
 import com.jturingmachinele.graphics.transiciones.TransicionArco;
 import com.jturingmachinele.graphics.transiciones.TransicionRecta;
 import com.jturingmachinele.persistencia.PersistirXML;
@@ -18,6 +19,7 @@ import com.jturingmachinele.visual.componentes.Lienzo;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -51,8 +53,8 @@ public class Aplicacion extends javax.swing.JFrame {
             //lienzo.setObjetoGrafico(EstadoInicial.getInstancia(new Point(250, 250), "q1"));
             EstadoTransitivo et = new EstadoTransitivo(new Point(300,150),"q2");
             lienzo.setObjetoGrafico(et);
-            lienzo.setObjetoGrafico(new TransicionArco(EstadoInicial.getInstancia(),et,"aDx"));
-            lienzo.setObjetoGrafico(new TransicionRecta(EstadoInicial.getInstancia(),et,"aDx"));
+//            lienzo.setObjetoGrafico(new TransicionArco(EstadoInicial.getInstancia(),et,"aDx"));
+//            lienzo.setObjetoGrafico(new TransicionRecta(EstadoInicial.getInstancia(),et,"aDx"));
             initComponents();
             setVisible(true);
             configurarGUI();
@@ -468,6 +470,14 @@ public class Aplicacion extends javax.swing.JFrame {
         lienzo.limpiar();
         lienzo.setEnabled(true);
         lienzo.setVisible(true);
+        EstadoTransitivo et = new EstadoTransitivo(new Point(300,150),"q2");
+        lienzo.setObjetoGrafico(et);
+        TransicionArco tranArc = new TransicionArco(EstadoInicial.getInstancia(),et,"aDx");
+        TransicionArco tranArcR = new TransicionArco(et,EstadoInicial.getInstancia(),"aIy");
+        tranArc.setRetorno(definirRetorno(tranArc));
+        lienzo.setObjetoGrafico(tranArc);
+        tranArcR.setRetorno(definirRetorno(tranArcR));
+        lienzo.setObjetoGrafico(tranArcR);
     }//GEN-LAST:event_itemNuevoArchivoActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -477,6 +487,30 @@ public class Aplicacion extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    /**
+     * Define si una transición esta retornando de un estado al que ya ha llegado
+     * otra transición y va hacia el mismo estado de donde salió la anterior.
+     * @param transicion Objeto de tipo <code>Transicion</code>
+     */
+    private boolean definirRetorno(Transicion transicion){
+        boolean retorno = false;
+        ArrayList<ObjetoGrafico> objects = lienzo.getObjetosGraficos();
+        for(ObjetoGrafico e: objects){            
+            if(e.getClass().getSuperclass().equals(Transicion.class))
+            {
+                Transicion tran = (Transicion)e;
+                if(transicion.getNodoFinal().equals(tran.getNodoInicial())){
+                    retorno = true;
+                    break;
+                }                
+            }
+            else{
+                    retorno = false;
+                }
+        }
+        return retorno;
+    }
 
     private void lienzoMouseReleased(java.awt.event.MouseEvent evt){
         for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
