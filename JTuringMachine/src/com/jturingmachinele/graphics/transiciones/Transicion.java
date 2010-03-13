@@ -23,6 +23,7 @@ public abstract class Transicion extends ObjetoGrafico implements Serializable, 
     private static final long serialVersionUID = 1l;
     private Estado nodoInicial, nodoFinal;
     private String etiqueta;
+    private boolean retorno = false;
 
     /**
      * Crea una instancia de una <code>Transicion</code>.
@@ -111,6 +112,27 @@ public abstract class Transicion extends ObjetoGrafico implements Serializable, 
                Math.min(_11, Math.min(_12, Math.min(_13, Math.min(_14, Math.min(_15,_16)))))))))))))));
     }
 
+    public int getCuadranteNodoFin(Point inicio, Point fin){
+        int cuadrante =0;
+
+        if(fin.getX()>=inicio.getX() && fin.getY()<=inicio.getY()){
+            cuadrante = 1;
+        }else{
+            if(fin.getX()<=inicio.getX() && fin.getY()<=inicio.getY()){
+                cuadrante = 2;
+            }else{
+                if(fin.getX()<=inicio.getX() && fin.getY()>=inicio.getY()){
+                    cuadrante = 3;
+                }else{
+                    if(fin.getX()>=inicio.getX() && fin.getY()>=inicio.getY()){
+                        cuadrante = 4;
+                    }
+                }
+            }
+        }
+        return cuadrante;
+    }
+    
     /**
      * Obtiene el
      * @return the nodoInicial
@@ -152,6 +174,20 @@ public abstract class Transicion extends ObjetoGrafico implements Serializable, 
      */
     public void setEtiqueta(String etiqueta) {
         this.etiqueta = etiqueta;
+    }
+
+    /**
+     * @return the retorno
+     */
+    public boolean isRetorno() {
+        return retorno;
+    }
+
+    /**
+     * @param retorno the retorno to set
+     */
+    public void setRetorno(boolean retorno) {
+        this.retorno = retorno;
     }
 
 }
