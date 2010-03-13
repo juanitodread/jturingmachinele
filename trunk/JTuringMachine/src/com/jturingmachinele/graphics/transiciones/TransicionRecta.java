@@ -21,15 +21,6 @@ import java.util.Observable;
  */
 public class TransicionRecta extends Transicion implements Serializable{
 
-    /**
-     * No utilizar
-     *
-     * @deprecated No utilizar 
-     */
-    public TransicionRecta(){
-        super(null, null, null);
-    }
-
     private static final long serialVersionUID = 1l;
     /**
      * Tamaño de la punta de la flecha en pixeles

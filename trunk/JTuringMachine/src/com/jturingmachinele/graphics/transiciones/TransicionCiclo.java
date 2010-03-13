@@ -26,9 +26,9 @@ public class TransicionCiclo extends Transicion implements Serializable {
      *
      * @deprecated No utilizar
      */
-    public TransicionCiclo(){
-        super(null, null, null);
-    }
+//    public TransicionCiclo(){
+//        super(null, null, null, null);
+//    }
 
     private static final long serialVersionUID = 1l;
     /**
