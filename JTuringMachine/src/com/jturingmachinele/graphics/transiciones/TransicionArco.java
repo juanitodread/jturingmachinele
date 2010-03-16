@@ -22,7 +22,6 @@ import java.util.Observable;
  * @author Marcela Sena
  * @version 1.0
  */
-
 public class TransicionArco extends Transicion implements Serializable {
 
     private static final long serialVersionUID = 1l;
@@ -57,7 +56,6 @@ public class TransicionArco extends Transicion implements Serializable {
      * @param nodoFinal Estado a donde llegará la transición.
      * @param etiqueta Etiqueta que mostrará la transición
      */
-
     public TransicionArco(Estado nodoInicial, Estado nodoFinal, String etiqueta){
         super(nodoInicial, nodoFinal, etiqueta);
     }
@@ -66,7 +64,6 @@ public class TransicionArco extends Transicion implements Serializable {
      * Dibuja una <code>TransicionArco</code> de un estado a otro con su etiqueta.
      * @param g Objeto para dibujar graficos en el lienzo.
      */
-
    @Override
     public void dibujar(Graphics g) {
         g.setColor(Color.BLACK);
@@ -188,7 +185,6 @@ public class TransicionArco extends Transicion implements Serializable {
      * @param fin Punto al que llegará la curva, de tipo Point
      * @return putoCurvatura Punto en el que se formará la curvatura, de tipo Point
      */
-
     private Point getPuntoCurvatura(Point inicio, Point fin){
         int xCurva;
         int yCurva;
