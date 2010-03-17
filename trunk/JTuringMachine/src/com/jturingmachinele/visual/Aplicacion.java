@@ -8,6 +8,7 @@ package com.jturingmachinele.visual;
 
 import com.jturingmachinele.graphics.ObjetoGrafico;
 import com.jturingmachinele.graphics.estados.Estado;
+import com.jturingmachinele.graphics.estados.EstadoFinal;
 import com.jturingmachinele.graphics.estados.EstadoInicial;
 import com.jturingmachinele.graphics.estados.EstadoTransitivo;
 import com.jturingmachinele.graphics.transiciones.Transicion;
@@ -51,8 +52,8 @@ public class Aplicacion extends javax.swing.JFrame {
             lienzo = new Lienzo();
             lienzo.setVisible(false);
             //lienzo.setObjetoGrafico(EstadoInicial.getInstancia(new Point(250, 250), "q1"));
-            EstadoTransitivo et = new EstadoTransitivo(new Point(300,150),"q2");
-            lienzo.setObjetoGrafico(et);
+            //EstadoTransitivo et = new EstadoTransitivo(new Point(300,150),"q2");
+            //lienzo.setObjetoGrafico(et);
 //            lienzo.setObjetoGrafico(new TransicionArco(EstadoInicial.getInstancia(),et,"aDx"));
 //            lienzo.setObjetoGrafico(new TransicionRecta(EstadoInicial.getInstancia(),et,"aDx"));
             initComponents();
@@ -477,7 +478,7 @@ public class Aplicacion extends javax.swing.JFrame {
         tranArc.setRetorno(definirRetorno(tranArc));
         lienzo.setObjetoGrafico(tranArc);
         tranArcR.setRetorno(definirRetorno(tranArcR));
-        lienzo.setObjetoGrafico(tranArcR);
+        lienzo.setObjetoGrafico(tranArcR);      
     }//GEN-LAST:event_itemNuevoArchivoActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -512,6 +513,26 @@ public class Aplicacion extends javax.swing.JFrame {
         return retorno;
     }
 
+    //Clic en el lienzo, se usara para crear un nuevo estado
+    private void lienzoMouseClicked(java.awt.event.MouseEvent evt){
+        boolean crear = true;
+        if(!evt.isMetaDown()){
+            for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
+                if(obj.getClass().getName().contains("Estado")){
+                    Estado est = (Estado) obj;
+                    if(est.isFlotando(evt.getX(), evt.getY())){
+                        crear = false;
+                    }
+                }
+            }
+            if(crear){
+                EstadoFinal obj = new EstadoFinal(evt.getPoint(), JOptionPane.showInputDialog(this, "Etiqueta"));
+                lienzo.setObjetoGrafico(obj);
+            }
+        }
+    }
+
+    //Evento que sucede cuando se mueve el ratón.
     private void lienzoMouseReleased(java.awt.event.MouseEvent evt){
         for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
             if(obj.getClass().getName().contains("Estado")){
@@ -521,6 +542,7 @@ public class Aplicacion extends javax.swing.JFrame {
         }
     }
 
+    //Evento que sucede cuando se arrastra un estado.
     private void lienzoMouseDragged(java.awt.event.MouseEvent evt){
         if(evt.isMetaDown()){
             for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
@@ -528,11 +550,12 @@ public class Aplicacion extends javax.swing.JFrame {
                     Estado est = (Estado) obj;
                     if(!est.isFlotando(evt.getX(), evt.getY()) && !est.isMoving()){
                         est.setMoving(false);
-                    }else if(est.isFlotando(evt.getX(), evt.getY()) || est.isMoving()){
+                    }else if((est.isFlotando(evt.getX(), evt.getY()) || est.isMoving()) && !est.isBloqueado()){
                         est.setMoving(true);
                         Point posicion = new Point(evt.getX() - Estado.RADIO,
                                                    evt.getY() - Estado.RADIO);
                         est.setCoordenadaXY(posicion);
+                        lienzo.bloquearEstados(est);
                         lienzo.repaint();
                     }
                 }                
@@ -540,10 +563,12 @@ public class Aplicacion extends javax.swing.JFrame {
         }
     }
 
+    //Evento para cambiar el color de un estado cuando el raton pase por encima.
     private void lienzoMouseMoved(java.awt.event.MouseEvent evt){
         for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
             if(obj.getClass().getName().contains("Estado")){
                 Estado est = (Estado) obj;
+                est.setBloqueado(false);
                 if(est.isFlotando(evt.getX(), evt.getY()) && !est.isExitado()){
                     est.exitar();
                     est.setExitado(true);
@@ -580,6 +605,11 @@ public class Aplicacion extends javax.swing.JFrame {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 lienzoMouseReleased(evt);
             }
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt){
+                lienzoMouseClicked(evt);
+            }
         });
 
         lienzo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter(){
@@ -592,6 +622,7 @@ public class Aplicacion extends javax.swing.JFrame {
                 lienzoMouseMoved(evt);
             }
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
