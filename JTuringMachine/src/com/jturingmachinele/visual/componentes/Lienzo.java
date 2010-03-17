@@ -210,4 +210,20 @@ public class Lienzo extends JPanel implements IMemento{
         repaint();
     }
 
+    /**
+     * Bloquea los estados que no se están arrastrando para que si pasa por encima
+     * no los tome en cuenta el ratón.
+     * @param estado Estado que no se bloqueará debido a que es el estado que está
+     * siendo arrastrado.
+     */
+    public void bloquearEstados(Estado estado){
+        for(ObjetoGrafico obj : objetosGraficos){
+            if(obj.getClass().getName().contains("Estado")){
+                Estado estAux = (Estado) obj;
+                if(!estado.equals(estAux)){
+                    estAux.setBloqueado(true);
+                }
+            }
+        }
+    }
 }

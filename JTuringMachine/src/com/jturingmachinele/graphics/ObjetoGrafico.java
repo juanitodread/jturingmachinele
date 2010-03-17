@@ -7,7 +7,6 @@ package com.jturingmachinele.graphics;
 
 import java.awt.Graphics;
 import java.io.Serializable;
-import java.util.Observable;
 
 /**
  * Clase Abstracta de la cual heredarán todas las demas figuras.
@@ -16,7 +15,7 @@ import java.util.Observable;
  * @author Juan Sandoval
  * @version 1.0
  */
-public abstract class ObjetoGrafico extends Observable implements Serializable{
+public abstract class ObjetoGrafico implements Serializable{
 
     private static final long serialVersionUID = 1l; //Id de versión del objeto serializado.
     private int id;

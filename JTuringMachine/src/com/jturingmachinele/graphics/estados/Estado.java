@@ -28,6 +28,8 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
     private String etiqueta;
     private boolean exitado = false;
     private boolean moving = false;
+    private boolean bloqueado = false;
+
     /**
      * Radio que tienen los estados, su valor es 25,
      */
@@ -107,8 +109,6 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
     public void setCoordenadaXY(Point coordenadaXY) {
         this.coordenadaXY = coordenadaXY;
         delimitarArea();
-        setChanged();
-        this.notifyObservers();
     }
 
      /**
@@ -259,6 +259,14 @@ public abstract class Estado extends ObjetoGrafico implements Serializable {
      */
     public void setMoving(boolean moving){
         this.moving = moving;
+    }
+
+    public boolean isBloqueado(){
+        return bloqueado;
+    }
+
+    public void setBloqueado(boolean bloqueado){
+        this.bloqueado = bloqueado;
     }
 
     /**
