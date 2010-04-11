@@ -22,7 +22,9 @@ import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -42,6 +44,7 @@ public class Aplicacion extends javax.swing.JFrame {
     private File archivo = null;
     private int apariencia;
     private boolean openFile = false;
+    private JPopupMenu popUp;
 
     public static final int LINUX = 0;
     public static final int WINDOWS = 1;
@@ -51,11 +54,6 @@ public class Aplicacion extends javax.swing.JFrame {
     public Aplicacion() {
             lienzo = new Lienzo();
             lienzo.setVisible(false);
-            //lienzo.setObjetoGrafico(EstadoInicial.getInstancia(new Point(250, 250), "q1"));
-            //EstadoTransitivo et = new EstadoTransitivo(new Point(300,150),"q2");
-            //lienzo.setObjetoGrafico(et);
-//            lienzo.setObjetoGrafico(new TransicionArco(EstadoInicial.getInstancia(),et,"aDx"));
-//            lienzo.setObjetoGrafico(new TransicionRecta(EstadoInicial.getInstancia(),et,"aDx"));
             initComponents();
             setVisible(true);
             configurarGUI();
@@ -71,8 +69,20 @@ public class Aplicacion extends javax.swing.JFrame {
     private void initComponents() {
 
         btnGrupoApariencias = new javax.swing.ButtonGroup();
+        pnlEste = new javax.swing.JPanel();
+        scrollArbolObjetos = new javax.swing.JScrollPane();
+        treeArbolObjetos = new javax.swing.JTree();
         pnlNorte = new javax.swing.JPanel();
+        jToolBar1 = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        jToolBar2 = new javax.swing.JToolBar();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jComboBox1 = new javax.swing.JComboBox();
         pnlSur = new javax.swing.JPanel();
+        lbConsolaError = new javax.swing.JLabel();
+        sldZoom = new javax.swing.JSlider();
         pnlPrincipal = new javax.swing.JPanel();
         barraMenu = new javax.swing.JMenuBar();
         menuArchivo = new javax.swing.JMenu();
@@ -96,39 +106,109 @@ public class Aplicacion extends javax.swing.JFrame {
         itemAcercaDe = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("{:::jTuringMachine | Ornitorrinco:::}");
+        setTitle("jTuringMachine");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
 
-        javax.swing.GroupLayout pnlNorteLayout = new javax.swing.GroupLayout(pnlNorte);
-        pnlNorte.setLayout(pnlNorteLayout);
-        pnlNorteLayout.setHorizontalGroup(
-            pnlNorteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 947, Short.MAX_VALUE)
+        pnlEste.setBorder(javax.swing.BorderFactory.createTitledBorder("Arbol de objetos"));
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("JTree");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("colors");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("blue");
+        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("violet");
+        javax.swing.tree.DefaultMutableTreeNode treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("red");
+        javax.swing.tree.DefaultMutableTreeNode treeNode6 = new javax.swing.tree.DefaultMutableTreeNode("yellow");
+        treeNode5.add(treeNode6);
+        treeNode4.add(treeNode5);
+        treeNode3.add(treeNode4);
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("sports");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("basketball");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("soccer");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("football");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("hockey");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("food");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("hot dogs");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("pizza");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("ravioli");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("bananas");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeArbolObjetos.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        scrollArbolObjetos.setViewportView(treeArbolObjetos);
+
+        javax.swing.GroupLayout pnlEsteLayout = new javax.swing.GroupLayout(pnlEste);
+        pnlEste.setLayout(pnlEsteLayout);
+        pnlEsteLayout.setHorizontalGroup(
+            pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 223, Short.MAX_VALUE)
+            .addGroup(pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(scrollArbolObjetos, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
         );
-        pnlNorteLayout.setVerticalGroup(
-            pnlNorteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+        pnlEsteLayout.setVerticalGroup(
+            pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 589, Short.MAX_VALUE)
+            .addGroup(pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(scrollArbolObjetos, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE))
         );
+
+        getContentPane().add(pnlEste, java.awt.BorderLayout.LINE_START);
+
+        pnlNorte.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        jToolBar1.setRollover(true);
+
+        jButton1.setText("jButton1");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton1);
+
+        jToggleButton1.setText("jToggleButton1");
+        jToggleButton1.setFocusable(false);
+        jToggleButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jToggleButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jToggleButton1);
+
+        jToggleButton2.setText("jToggleButton2");
+        jToggleButton2.setFocusable(false);
+        jToggleButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jToggleButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jToggleButton2);
+
+        pnlNorte.add(jToolBar1);
+
+        jToolBar2.setRollover(true);
+        jToolBar2.add(jProgressBar1);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jToolBar2.add(jComboBox1);
+
+        pnlNorte.add(jToolBar2);
 
         getContentPane().add(pnlNorte, java.awt.BorderLayout.PAGE_START);
 
-        javax.swing.GroupLayout pnlSurLayout = new javax.swing.GroupLayout(pnlSur);
-        pnlSur.setLayout(pnlSurLayout);
-        pnlSurLayout.setHorizontalGroup(
-            pnlSurLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 947, Short.MAX_VALUE)
-        );
-        pnlSurLayout.setVerticalGroup(
-            pnlSurLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        pnlSur.setLayout(new java.awt.BorderLayout());
+
+        lbConsolaError.setText("Consola: ");
+        pnlSur.add(lbConsolaError, java.awt.BorderLayout.CENTER);
+        pnlSur.add(sldZoom, java.awt.BorderLayout.LINE_END);
 
         getContentPane().add(pnlSur, java.awt.BorderLayout.PAGE_END);
 
+        pnlPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder("Área de trabajo"));
         pnlPrincipal.setLayout(new java.awt.BorderLayout());
         getContentPane().add(pnlPrincipal, java.awt.BorderLayout.CENTER);
 
@@ -327,7 +407,7 @@ public class Aplicacion extends javax.swing.JFrame {
         selector.setFileSelectionMode(JFileChooser.FILES_ONLY);
         if(selector.showOpenDialog(this) != JFileChooser.CANCEL_OPTION){
             archivo = selector.getSelectedFile();
-            setTitle(String.format("%s - {:::jTuringMachine | Ornitorrinco:::}",
+            setTitle(String.format("%s - jTuringMachine",
                                    archivo.getName()));
             lienzo.setObjetosGraficos(PersistirXML.abrir(archivo));
             itemCerrarArchivo.setEnabled(true);
@@ -356,7 +436,7 @@ public class Aplicacion extends javax.swing.JFrame {
                                               JOptionPane.INFORMATION_MESSAGE);
                 itemCerrarArchivo.setEnabled(true);
                 openFile = true;
-                setTitle(String.format("%s - {:::jTuringMachine | Ornitorrinco:::}",
+                setTitle(String.format("%s - jTuringMachine",
                                        archivo.getName()));
             }else{
                 JOptionPane.showMessageDialog(this,
@@ -380,7 +460,7 @@ public class Aplicacion extends javax.swing.JFrame {
             lienzo.setVisible(false);
             openFile = false;
             itemCerrarArchivo.setEnabled(false);
-            setTitle("{:::jTuringMachine | Ornitorrinco:::}");
+            setTitle("jTuringMachine | Ornitorrinco");
         }
     }//GEN-LAST:event_itemCerrarArchivoActionPerformed
 
@@ -542,6 +622,16 @@ public class Aplicacion extends javax.swing.JFrame {
         }
     }
 
+    private void lienzoMousePressed(java.awt.event.MouseEvent evt){
+        if(evt.isPopupTrigger()){
+            popUp = new JPopupMenu();
+            popUp.add(new JLabel("Nombre"));
+            popUp.add(new JLabel("Apellido"));
+            popUp.add(new JLabel("Sexo"));
+            popUp.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }
+
     //Evento que sucede cuando se arrastra un estado.
     private void lienzoMouseDragged(java.awt.event.MouseEvent evt){
         if(!evt.isMetaDown()){
@@ -580,16 +670,6 @@ public class Aplicacion extends javax.swing.JFrame {
             }
         }
     }
-    /**
-    * @param args the command line arguments
-    */
-//    public static void main(String args[]) {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Aplicacion().setVisible(true);
-//            }
-//        });
-//    }
 
     private void configurarGUI(){
         scroll = new JScrollPane(lienzo,
@@ -609,6 +689,11 @@ public class Aplicacion extends javax.swing.JFrame {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt){
                 lienzoMouseClicked(evt);
+            }
+
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt){
+                lienzoMousePressed(evt);
             }
         });
 
@@ -637,11 +722,20 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemNuevoArchivo;
     private javax.swing.JMenuItem itemRehacer;
     private javax.swing.JMenuItem itemSalir;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JLabel lbConsolaError;
     private javax.swing.JMenu menuApariencias;
     private javax.swing.JMenu menuArchivo;
     private javax.swing.JMenu menuAyuda;
     private javax.swing.JMenu menuEdicion;
     private javax.swing.JMenu menuHerramientas;
+    private javax.swing.JPanel pnlEste;
     private javax.swing.JPanel pnlNorte;
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JPanel pnlSur;
@@ -649,7 +743,10 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem rdioMenuMetal;
     private javax.swing.JRadioButtonMenuItem rdioMenuSolaris;
     private javax.swing.JRadioButtonMenuItem rdioMenuWindows;
+    private javax.swing.JScrollPane scrollArbolObjetos;
     private javax.swing.JSeparator separador1;
+    private javax.swing.JSlider sldZoom;
+    private javax.swing.JTree treeArbolObjetos;
     // End of variables declaration//GEN-END:variables
 
     /**
