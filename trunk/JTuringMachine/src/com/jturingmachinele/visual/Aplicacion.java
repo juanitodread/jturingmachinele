@@ -544,7 +544,7 @@ public class Aplicacion extends javax.swing.JFrame {
 
     //Evento que sucede cuando se arrastra un estado.
     private void lienzoMouseDragged(java.awt.event.MouseEvent evt){
-        if(evt.isMetaDown()){
+        if(!evt.isMetaDown()){
             for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
                 if(obj.getClass().getName().contains("Estado")){
                     Estado est = (Estado) obj;

@@ -45,7 +45,7 @@ private JScrollPane scroll;
         scroll=new JScrollPane(lienzo,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         getContentPane().add(scroll,java.awt.BorderLayout.CENTER);
         Graphics g=lienzo.getGraphics();
-        ei = EstadoInicial.getInstancia(new Point(100,250), "q1");
+        //ei = EstadoInicial.getInstancia(new Point(100,250), "q1");
         //lienzo.getObjetosGraficos().add(ei);
         et = new EstadoTransitivo(new Point(250,350), "q2");
         //Estado estado = ei;
