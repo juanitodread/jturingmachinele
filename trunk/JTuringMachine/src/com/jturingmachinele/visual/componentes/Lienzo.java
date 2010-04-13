@@ -226,4 +226,45 @@ public class Lienzo extends JPanel implements IMemento{
             }
         }
     }
+
+    /**
+     * Obtiene un estado por su etiqueta, si no se encuentra retorna un null.
+     * @param etiqueta
+     * @return
+     */
+    public Estado getEstado(String etiqueta){
+        Estado est = null;
+        for(ObjetoGrafico obj : objetosGraficos){
+            if(obj.getClass().getName().contains("Estado")){
+                Estado estAux = (Estado) obj;
+                if(estAux.getEtiqueta().equals(etiqueta)){
+                    est = estAux;
+                    return est;
+                }
+            }
+        }
+        return est;
+    }
+
+    /**
+     * Obtiene el estado que esta seleccionado por el cursor. Si no hay ninguno
+     * retorna null
+     * @param x Posicion x del cursor
+     * @param y Posición y del cursor
+     * @return El estado
+     */
+    public Estado getEstadoSeleccionado(int x, int y){
+        Estado est = null;
+        for(ObjetoGrafico obj : objetosGraficos){
+            if(obj.getClass().getName().contains("Estado")){
+                Estado estAux = (Estado) obj;
+                if(estAux.isFlotando(x, y)){
+                    est = estAux;
+                    return est;
+                }
+            }
+        }
+        return est;
+    }
+
 }

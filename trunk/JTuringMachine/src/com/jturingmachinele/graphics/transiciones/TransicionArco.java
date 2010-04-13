@@ -51,6 +51,13 @@ public class TransicionArco extends Transicion implements Serializable {
     public static final int INICIO_RETORNO = 2;
 
      /**
+     * Crea una <code>TransicionArco</code>s sin valores de inicio.
+     */
+    public TransicionArco(){
+        super(null, null, "");
+    }
+
+     /**
      * Crea una <code>TransicionArco</code>
      * @param nodoInicial Estado de donde partirá la transición
      * @param nodoFinal Estado a donde llegará la transición.
