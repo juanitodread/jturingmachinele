@@ -319,9 +319,9 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="604" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="602" max="32767" attributes="0"/>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Component id="scrollArbolObjetos" alignment="0" pref="604" max="32767" attributes="0"/>
+                  <Component id="scrollArbolObjetos" alignment="0" pref="602" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -383,6 +383,7 @@
                     <Property name="toolTipText" type="java.lang.String" value="Selecciona la creaci&#xf3;n de un estado transitivo."/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
+                    <Property name="rolloverEnabled" type="boolean" value="true"/>
                     <Property name="verticalTextPosition" type="int" value="3"/>
                   </Properties>
                 </Component>
@@ -480,7 +481,10 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnValidar">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Validar cadena"/>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/com/jturingmachinele/visual/img/book_edit.png"/>
+                    </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Validar cadena con la m&#xe1;quina gener&#xe1;da."/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="verticalTextPosition" type="int" value="3"/>
@@ -490,7 +494,10 @@
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="tBtnVistaPrevia">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Vista previa"/>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/com/jturingmachinele/visual/img/zoom.png"/>
+                    </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Habilita la vista previa."/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="verticalTextPosition" type="int" value="3"/>
@@ -546,6 +553,7 @@
                   <Image iconType="3" name="/com/jturingmachinele/visual/img/magifier_zoom_out.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Disminuir zoom"/>
+                <Property name="focusable" type="boolean" value="false"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[20, 23]"/>
                 </Property>
@@ -576,6 +584,7 @@
                   <Image iconType="3" name="/com/jturingmachinele/visual/img/magnifier_zoom_in.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Aumentar zoom"/>
+                <Property name="focusable" type="boolean" value="false"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[23, 23]"/>
                 </Property>
