@@ -31,6 +31,13 @@ public class TransicionRecta extends Transicion implements Serializable{
      */
     public static final double ANGULO_FLECHA = Math.PI / 6;
 
+     /**
+     * Crea una <code>TransicionRecta</code>
+     */
+    public TransicionRecta(){
+        super(null, null, "");
+    }
+
     /**
      * Crea una <code>TransicionRecta</code>
      * @param nodoInicial Estado de donde partirá la transición

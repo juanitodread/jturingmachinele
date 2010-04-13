@@ -40,6 +40,14 @@ public class TransicionCiclo extends Transicion implements Serializable {
      */
     public static final double ANGULO_FLECHA = Math.PI / 6;
 
+     /**
+     * Crea una <code>TransicionCiclo</code>, utilizando el contructor de la clase
+     * padre <code>Transicion</code>.
+     */
+    public TransicionCiclo(){
+        super(null, null, "");
+    }
+
     /**
      * Crea una <code>TransicionCiclo</code>, utilizando el contructor de la clase
      * padre <code>Transicion</code>.
@@ -47,8 +55,8 @@ public class TransicionCiclo extends Transicion implements Serializable {
      * @param nodoFinal Estado a donde llegará la transición.
      * @param etiqueta Etiqueta que mostrará la transición.
      */
-    public TransicionCiclo(Estado nodoInicial, Estado nodoFinal, String etiqueta){
-        super(nodoInicial, nodoFinal, etiqueta);
+    public TransicionCiclo(Estado nodoInicial, String etiqueta){
+        super(nodoInicial, null, etiqueta);
     }
 
     /**
