@@ -9,6 +9,7 @@ package com.jturingmachinele.visual;
 import com.jturingmachinele.graphics.ObjetoGrafico;
 import com.jturingmachinele.graphics.estados.Estado;
 import com.jturingmachinele.graphics.estados.EstadoFinal;
+import com.jturingmachinele.graphics.estados.EstadoInicial;
 import com.jturingmachinele.graphics.estados.EstadoTransitivo;
 import com.jturingmachinele.graphics.transiciones.Transicion;
 import com.jturingmachinele.graphics.transiciones.TransicionArco;
@@ -49,8 +50,8 @@ public class Aplicacion extends javax.swing.JFrame {
     private JPopupMenu popUp;
     private JMenuItem itmEliminar;
     private JMenu menuEstados;
-    private JMenuItem[] itmEstados;
     private int popUpX, popUpY;
+    private String tipoTransicion;
 
     public static final int LINUX = 0;
     public static final int WINDOWS = 1;
@@ -175,9 +176,9 @@ public class Aplicacion extends javax.swing.JFrame {
         );
         pnlEsteLayout.setVerticalGroup(
             pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 604, Short.MAX_VALUE)
+            .addGap(0, 602, Short.MAX_VALUE)
             .addGroup(pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(scrollArbolObjetos, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE))
+                .addComponent(scrollArbolObjetos, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE))
         );
 
         getContentPane().add(pnlEste, java.awt.BorderLayout.LINE_START);
@@ -195,6 +196,7 @@ public class Aplicacion extends javax.swing.JFrame {
         tBtnTransicion.setToolTipText("Selecciona la creación de un estado transitivo.");
         tBtnTransicion.setFocusable(false);
         tBtnTransicion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tBtnTransicion.setRolloverEnabled(true);
         tBtnTransicion.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jtbEstado.add(tBtnTransicion);
 
@@ -247,14 +249,16 @@ public class Aplicacion extends javax.swing.JFrame {
         txtCadena.setPreferredSize(new java.awt.Dimension(200, 20));
         jtbMaquina.add(txtCadena);
 
-        btnValidar.setText("Validar cadena");
+        btnValidar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/book_edit.png"))); // NOI18N
+        btnValidar.setToolTipText("Validar cadena con la máquina generáda.");
         btnValidar.setFocusable(false);
         btnValidar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnValidar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jtbMaquina.add(btnValidar);
         jtbMaquina.add(separadorMaquina);
 
-        tBtnVistaPrevia.setText("Vista previa");
+        tBtnVistaPrevia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/zoom.png"))); // NOI18N
+        tBtnVistaPrevia.setToolTipText("Habilita la vista previa.");
         tBtnVistaPrevia.setFocusable(false);
         tBtnVistaPrevia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tBtnVistaPrevia.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -279,6 +283,7 @@ public class Aplicacion extends javax.swing.JFrame {
 
         btnMenosZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/magifier_zoom_out.png"))); // NOI18N
         btnMenosZoom.setToolTipText("Disminuir zoom");
+        btnMenosZoom.setFocusable(false);
         btnMenosZoom.setMaximumSize(new java.awt.Dimension(20, 23));
         btnMenosZoom.setMinimumSize(new java.awt.Dimension(20, 23));
         btnMenosZoom.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -291,6 +296,7 @@ public class Aplicacion extends javax.swing.JFrame {
 
         btnMasZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/magnifier_zoom_in.png"))); // NOI18N
         btnMasZoom.setToolTipText("Aumentar zoom");
+        btnMasZoom.setFocusable(false);
         btnMasZoom.setMaximumSize(new java.awt.Dimension(23, 23));
         btnMasZoom.setMinimumSize(new java.awt.Dimension(23, 23));
         btnMasZoom.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -500,6 +506,7 @@ public class Aplicacion extends javax.swing.JFrame {
             setTitle(String.format("%s - jTuringMachine",
                                    archivo.getName()));
             lienzo.setObjetosGraficos(PersistirXML.abrir(archivo));
+            refrescarMenuEstados(false, null);
             itemCerrarArchivo.setEnabled(true);
             openFile = true;
             lienzo.setEnabled(true);
@@ -548,7 +555,7 @@ public class Aplicacion extends javax.swing.JFrame {
             lienzo.limpiar();
             openFile = false;
             itemCerrarArchivo.setEnabled(false);
-            setTitle("jTuringMachine | Ornitorrinco");
+            setTitle("jTuringMachine");
         }
     }//GEN-LAST:event_itemCerrarArchivoActionPerformed
 
@@ -636,7 +643,8 @@ public class Aplicacion extends javax.swing.JFrame {
     }//GEN-LAST:event_itemAcercaDeActionPerformed
 
     private void itemNuevoArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNuevoArchivoActionPerformed
-        lienzo.limpiar();      
+        lienzo.limpiar();
+        EstadoInicial.getInstancia().setCoordenadaXY(new Point(50, 50));
     }//GEN-LAST:event_itemNuevoArchivoActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -653,21 +661,28 @@ public class Aplicacion extends javax.swing.JFrame {
         popUp = new JPopupMenu();
         itmEliminar = new JMenuItem("Eliminar estado");
         menuEstados = new JMenu("Transición");
-        refrescarMenuEstados();
+        refrescarMenuEstados(false,null);
         popUp.add(itmEliminar);
         popUp.add(menuEstados);
     }
 
     //Refrescamos el combo de transiciones del popUp
-    private void refrescarMenuEstados(){
+    private void refrescarMenuEstados(boolean ciclo, String pareja){
         manejadorMenuPopUp manejador = new manejadorMenuPopUp();
         menuEstados.removeAll();
-        for(ObjetoGrafico estado : lienzo.getObjetosGraficos()){
-            if(estado.getClass().getName().contains("Estado")){
-                Estado aux = (Estado)estado;
-                JMenuItem item = new JMenuItem(aux.getEtiqueta());
-                item.addActionListener(manejador);
-                menuEstados.add(item);
+        menuEstados.setText(String.format("Transición %s", tipoTransicion));
+        if(ciclo){
+            JMenuItem item = new JMenuItem(pareja);
+            item.addActionListener(manejador);
+            menuEstados.add(item);
+        }else{
+            for(ObjetoGrafico estado : lienzo.getObjetosGraficos()){
+                if(estado.getClass().getName().contains("Estado")){
+                    Estado aux = (Estado)estado;
+                    JMenuItem item = new JMenuItem(aux.getEtiqueta());
+                    item.addActionListener(manejador);
+                    menuEstados.add(item);
+                }
             }
         }
     }
@@ -715,7 +730,7 @@ public class Aplicacion extends javax.swing.JFrame {
                         nuevo = new EstadoFinal(evt.getPoint(), etiqueta);
                     }
                     lienzo.setObjetoGrafico(nuevo);
-                    refrescarMenuEstados();
+                    refrescarMenuEstados(false,null);
                 }
             }
         }
@@ -732,6 +747,21 @@ public class Aplicacion extends javax.swing.JFrame {
                 itmEliminar.setText(String.format("Eliminar estado: %s",
                                                   est.getEtiqueta()));
                 itmEliminar.setName(est.getEtiqueta());
+                if(est.getEtiqueta().equals("q1")){
+                    itmEliminar.setVisible(false);
+                }else{
+                    itmEliminar.setVisible(true);
+                }
+                boolean ciclo = false;
+                if(tBtnCiclo.isSelected()){
+                    ciclo = true;
+                    tipoTransicion = "ciclo";
+                }else if(tBtnRecta.isSelected()){
+                    tipoTransicion = "recta";
+                }else{
+                    tipoTransicion = "arco";
+                }
+                refrescarMenuEstados(ciclo, est.getEtiqueta());
                 popUp.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         }else{
@@ -752,6 +782,12 @@ public class Aplicacion extends javax.swing.JFrame {
                 popUpY = evt.getY();
                 itmEliminar.setText(String.format("Eliminar estado: %s",
                                                   est.getEtiqueta()));
+                itmEliminar.setName(est.getEtiqueta());
+                if(est.getEtiqueta().equals("q1")){
+                    itmEliminar.setVisible(false);
+                }else{
+                    itmEliminar.setVisible(true);
+                }
                 popUp.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         }
@@ -944,7 +980,6 @@ public class Aplicacion extends javax.swing.JFrame {
                                                           JOptionPane.INFORMATION_MESSAGE);
             if(etiqueta != null && !etiqueta.isEmpty()){
                 Estado estIni = lienzo.getEstadoSeleccionado(popUpX, popUpY);
-                JOptionPane.showMessageDialog(null, estIni);
                 Estado estFin = lienzo.getEstado(evento.getActionCommand());
                 if(tBtnCiclo.isSelected()){
                     trans = new TransicionCiclo(estIni, etiqueta);
