@@ -23,15 +23,21 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  * JFrame que representa la interfaz para la aplicación jTuringMachine.
@@ -52,6 +58,11 @@ public class Aplicacion extends javax.swing.JFrame {
     private JMenu menuEstados;
     private int popUpX, popUpY;
     private String tipoTransicion;
+    private DefaultTreeModel modelo;
+    private DefaultMutableTreeNode padre;
+    private JTree treeArbolObjetos;
+    private JScrollPane scrollArbolObjetos = new JScrollPane();
+    DefaultTreeCellRenderer render;
 
     public static final int LINUX = 0;
     public static final int WINDOWS = 1;
@@ -61,6 +72,10 @@ public class Aplicacion extends javax.swing.JFrame {
     public Aplicacion() {
             lienzo = new Lienzo();
             initComponents();
+            //Icono Oficial de jTuringMachine
+            this.setIconImage (new ImageIcon(getClass().getResource(
+            "/com/jturingmachinele/visual/img/jTM_Logo.png")).getImage());
+            configurarJTree();
             configurarPopup();
             setVisible(true);
             configurarGUI();
@@ -74,8 +89,6 @@ public class Aplicacion extends javax.swing.JFrame {
         btnGrupoEstados = new javax.swing.ButtonGroup();
         btnGrupoTransiciones = new javax.swing.ButtonGroup();
         pnlEste = new javax.swing.JPanel();
-        scrollArbolObjetos = new javax.swing.JScrollPane();
-        treeArbolObjetos = new javax.swing.JTree();
         pnlNorte = new javax.swing.JPanel();
         pnlNortePrincipal = new javax.swing.JPanel();
         jtbEstado = new javax.swing.JToolBar();
@@ -130,55 +143,15 @@ public class Aplicacion extends javax.swing.JFrame {
 
         pnlEste.setBorder(javax.swing.BorderFactory.createTitledBorder("Arbol de objetos"));
 
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("JTree");
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("colors");
-        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("blue");
-        javax.swing.tree.DefaultMutableTreeNode treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("violet");
-        javax.swing.tree.DefaultMutableTreeNode treeNode6 = new javax.swing.tree.DefaultMutableTreeNode("red");
-        treeNode5.add(treeNode6);
-        treeNode4.add(treeNode5);
-        treeNode3.add(treeNode4);
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("yellow");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("sports");
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("basketball");
-        treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("soccer");
-        treeNode4.add(treeNode5);
-        treeNode3.add(treeNode4);
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("football");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("hockey");
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("food");
-        treeNode3.add(treeNode4);
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("hot dogs");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("pizza");
-        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("ravioli");
-        treeNode3.add(treeNode4);
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("bananas");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeArbolObjetos.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        scrollArbolObjetos.setViewportView(treeArbolObjetos);
-
         javax.swing.GroupLayout pnlEsteLayout = new javax.swing.GroupLayout(pnlEste);
         pnlEste.setLayout(pnlEsteLayout);
         pnlEsteLayout.setHorizontalGroup(
             pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 210, Short.MAX_VALUE)
-            .addGroup(pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(scrollArbolObjetos, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
         );
         pnlEsteLayout.setVerticalGroup(
             pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 602, Short.MAX_VALUE)
-            .addGroup(pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(scrollArbolObjetos, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE))
         );
 
         getContentPane().add(pnlEste, java.awt.BorderLayout.LINE_START);
@@ -514,6 +487,7 @@ public class Aplicacion extends javax.swing.JFrame {
         }
         selector = null;
         archivo = null;
+        actualizaNodosArbol(lienzo.getObjetosGraficos());
     }//GEN-LAST:event_itemAbrirArchivoActionPerformed
 
     private void itemGuardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGuardarArchivoActionPerformed
@@ -645,6 +619,7 @@ public class Aplicacion extends javax.swing.JFrame {
     private void itemNuevoArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNuevoArchivoActionPerformed
         lienzo.limpiar();
         EstadoInicial.getInstancia().setCoordenadaXY(new Point(50, 50));
+        actualizaNodosArbol(lienzo.getObjetosGraficos());
     }//GEN-LAST:event_itemNuevoArchivoActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -731,6 +706,7 @@ public class Aplicacion extends javax.swing.JFrame {
                     }
                     lienzo.setObjetoGrafico(nuevo);
                     refrescarMenuEstados(false,null);
+                    actualizaNodosArbol(lienzo.getObjetosGraficos());
                 }
             }
         }
@@ -880,6 +856,7 @@ public class Aplicacion extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 itmEliminarActionPerformed(e);
+                actualizaNodosArbol(lienzo.getObjetosGraficos());
             }
         });
 
@@ -923,7 +900,6 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem rdioMenuMetal;
     private javax.swing.JRadioButtonMenuItem rdioMenuSolaris;
     private javax.swing.JRadioButtonMenuItem rdioMenuWindows;
-    private javax.swing.JScrollPane scrollArbolObjetos;
     private javax.swing.JSeparator separador1;
     private javax.swing.JToolBar.Separator separadorMaquina;
     private javax.swing.JSlider sldZoom;
@@ -933,7 +909,6 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JToggleButton tBtnRecta;
     private javax.swing.JToggleButton tBtnTransicion;
     private javax.swing.JToggleButton tBtnVistaPrevia;
-    private javax.swing.JTree treeArbolObjetos;
     private javax.swing.JTextField txtCadena;
     // End of variables declaration//GEN-END:variables
 
@@ -969,8 +944,78 @@ public class Aplicacion extends javax.swing.JFrame {
         this.apariencia = apariencia;
     }
 
-    
-    
+    /**
+     * Inicializa las configuraciones del <code>JTree</code> para mostrarse en pantalla
+     */
+    private void configurarJTree() {
+        //Iniciar el JTree con el modelo de jTuringMachine
+        padre = new DefaultMutableTreeNode("Maquina de Turing");//Crear nodo padre
+        modelo = new DefaultTreeModel(padre);//Crear el modelo y asignarle el nodo padre
+        treeArbolObjetos = new JTree(modelo);//Asignar el modelo al JTree
+
+        scrollArbolObjetos.setViewportView(treeArbolObjetos);//Agregar el JTree a el JScrollPane
+        //Agregamos las propiedades al JPanelEste
+        javax.swing.GroupLayout pnlEsteLayout = new javax.swing.GroupLayout(pnlEste);
+        pnlEste.setLayout(pnlEsteLayout);
+        pnlEsteLayout.setHorizontalGroup(
+            pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 210, Short.MAX_VALUE)
+            .addGroup(pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(scrollArbolObjetos, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
+        );
+        pnlEsteLayout.setVerticalGroup(
+            pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 602, Short.MAX_VALUE)
+            .addGroup(pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(scrollArbolObjetos, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(pnlEste, java.awt.BorderLayout.LINE_START);
+
+        // Cambiamos los iconos
+        render= (DefaultTreeCellRenderer)treeArbolObjetos.getCellRenderer();
+        render.setLeafIcon(new ImageIcon(getClass().getResource(
+                "/com/jturingmachinele/visual/img/Estado_Transicion.png")));
+        render.setOpenIcon(new ImageIcon(getClass().getResource(
+                "/com/jturingmachinele/visual/img/Estado_Transicion.png")));
+        render.setClosedIcon(new ImageIcon(getClass().getResource(
+                "/com/jturingmachinele/visual/img/Estado_Transicion.png")));
+    }
+
+    /**
+     * Actualiza el <code>JTree</code> cada que se modifica el lienzo (agregar o
+     * eliminar gráficos, abrir archivos etc.)
+     * @param objetos ArrayList con los objetos creados en el Lienzo
+     */
+    public void actualizaNodosArbol(ArrayList<ObjetoGrafico> objetos){
+            configurarJTree();
+            DefaultMutableTreeNode nodoEstado = null;
+            DefaultMutableTreeNode nodoTransicion = null;
+            for(ObjetoGrafico o: objetos){
+                if(o.getClass().getSuperclass().equals(Estado.class)){
+                    Estado est = (Estado)o;
+                    nodoEstado = new DefaultMutableTreeNode("Estado: " + est.getEtiqueta());
+                    padre.add(nodoEstado);
+
+                }
+                else
+                    if(o.getClass().getSuperclass().equals(Transicion.class)){
+                        Transicion tran = (Transicion)o;
+                        nodoTransicion = new DefaultMutableTreeNode("Transicion: "
+                                            + tran.getEtiqueta());
+                        for(int a=0; a<padre.getChildCount(); a++){
+                            if(padre.getChildAt(a).toString().equalsIgnoreCase("Estado: "
+                                    + tran.getNodoInicial().getEtiqueta())){
+                                nodoEstado = (DefaultMutableTreeNode)padre.getChildAt(a);
+                            }
+                        } 
+                        nodoEstado.add(nodoTransicion);
+                    }
+            }
+            modelo.setRoot(padre);
+            treeArbolObjetos.setModel(modelo);                
+    }
+
     private class manejadorMenuPopUp implements ActionListener{
         public void actionPerformed(ActionEvent evento){
             Transicion trans;
@@ -989,6 +1034,7 @@ public class Aplicacion extends javax.swing.JFrame {
                     trans = new TransicionArco(estIni, estFin, etiqueta);
                 }
                 lienzo.setObjetoGrafico(trans);
+                actualizaNodosArbol(lienzo.getObjetosGraficos());
             }
         }
     }
