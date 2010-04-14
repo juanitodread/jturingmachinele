@@ -29,7 +29,9 @@ public class Lienzo extends JPanel implements IMemento{
 
     private ArrayList<ObjetoGrafico> objetosGraficos;
     private CaretakerLienzo caretaker;
-    //private EstadoInicial estadoInicial;
+    private float escala = 1.0F;
+    private boolean vistaPrevia = false;
+
     /**
      * Crea el lienzo y lo configura con ciertas propiedades de inicio.
      */
@@ -53,7 +55,7 @@ public class Lienzo extends JPanel implements IMemento{
         Graphics2D g2d=(Graphics2D)g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                              RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.scale(1.0, 1.0);
+        g2d.scale(escala, escala);
         g2d.setStroke (new BasicStroke(1.5f));
         for(ObjetoGrafico obj : objetosGraficos){
             obj.dibujar(g2d);
@@ -146,18 +148,9 @@ public class Lienzo extends JPanel implements IMemento{
      * eliminar.
      */
     public void eliminarTransicion(String etiqueta){
-        String nombre = null;
-        for(ObjetoGrafico obj : objetosGraficos){
-            nombre = obj.getClass().getSimpleName();
-            if("TransicionArco".equals(nombre) ||
-               "TransicionCiclo".equals(nombre) ||
-               "TransicionRecta".equals(nombre)){
-               Transicion aux = (Transicion) obj;
-               if(aux.getEtiqueta().equals(etiqueta)){
-                   objetosGraficos.remove(obj);
-                   break;
-               }
-            }
+        Transicion tran = getTransicion(etiqueta);
+        if(tran != null){
+            objetosGraficos.remove(tran);
         }
         caretaker.addMemento((MementoLienzo) getMemento());
         repaint();
@@ -169,33 +162,12 @@ public class Lienzo extends JPanel implements IMemento{
      * eliminar.
      */
     public void eliminarEstado(String etiqueta){
-        String nombre = null;
-        for(ObjetoGrafico obj : objetosGraficos){
-            nombre = obj.getClass().getSimpleName();
-            if("EstadoFinal".equals(nombre) ||
-               "EstadoTransitivo".equals(nombre) ){
-               Estado aux = (Estado) obj;
-               if(aux.getEtiqueta().equals(etiqueta)){
-                   objetosGraficos.remove(obj);
-                   nombre = null;
-                   break;
-               }
+        Estado est = getEstado(etiqueta);
+        if(est != null){
+            for(Transicion tran : getTransicionesDeEstado(etiqueta)){
+                objetosGraficos.remove(tran);
             }
-        }
-        int j = -1;
-        while(j < objetosGraficos.size()-1){
-            j++;
-            nombre = objetosGraficos.get(j).getClass().getSimpleName();
-            if("TransicionArco".equals(nombre) ||
-               "TransicionCiclo".equals(nombre) ||
-               "TransicionRecta".equals(nombre)){
-                Transicion  auxTran=(Transicion)objetosGraficos.get(j);
-                if(auxTran.getNodoInicial().getEtiqueta().equals(etiqueta) ||
-                auxTran.getNodoFinal().getEtiqueta().equals(etiqueta)){
-                    objetosGraficos.remove(j);
-                    j=-1;
-                }
-            }
+            objetosGraficos.remove(est);
         }
         caretaker.addMemento((MementoLienzo) getMemento());
         repaint();
@@ -217,12 +189,9 @@ public class Lienzo extends JPanel implements IMemento{
      * siendo arrastrado.
      */
     public void bloquearEstados(Estado estado){
-        for(ObjetoGrafico obj : objetosGraficos){
-            if(obj.getClass().getName().contains("Estado")){
-                Estado estAux = (Estado) obj;
-                if(!estado.equals(estAux)){
-                    estAux.setBloqueado(true);
-                }
+        for(Estado est : getEstados()){
+            if(!estado.equals(est)){
+                est.setBloqueado(true);
             }
         }
     }
@@ -230,7 +199,7 @@ public class Lienzo extends JPanel implements IMemento{
     /**
      * Obtiene un estado por su etiqueta, si no se encuentra retorna un null.
      * @param etiqueta
-     * @return
+     * @return El estado que se quiere obtener
      */
     public Estado getEstado(String etiqueta){
         Estado est = null;
@@ -244,6 +213,74 @@ public class Lienzo extends JPanel implements IMemento{
             }
         }
         return est;
+    }
+
+     /**
+     * Obtiene una transicion por su etiqueta, si no se encuentra retorna un null.
+     * @param etiqueta
+     * @return La transicion que se quiere obtener
+     */
+    public Transicion getTransicion(String etiqueta){
+        Transicion tran = null;
+        for(ObjetoGrafico obj : objetosGraficos){
+            if(obj.getClass().getName().contains("Transicion")){
+                Transicion tranAux = (Transicion) obj;
+                if(tranAux.getEtiqueta().equals(etiqueta)){
+                    tran = tranAux;
+                    return tran;
+                }
+            }
+        }
+        return tran;
+    }
+
+    /**
+     * Obtiene todas las transiciones correspondientes a un estado
+     * @param etiquetaEstado Etiqueta del estado
+     * @return Una lista con todas las transiciones de ese estado
+     */
+    public ArrayList<Transicion> getTransicionesDeEstado(String etiquetaEstado){
+        ArrayList<Transicion> transiciones = new ArrayList<Transicion>();
+        Estado est = getEstado(etiquetaEstado);
+        for(ObjetoGrafico obj : objetosGraficos){
+            if(obj.getClass().getName().contains("Transicion")){
+                Transicion tranAux = (Transicion)obj;
+                if(est.equals(tranAux.getNodoInicial()) || est.equals(tranAux.getNodoFinal())){
+                    transiciones.add(tranAux);
+                }
+            }
+        }
+        return transiciones;
+    }
+
+    /**
+     * Obtiene todos los estados del lienzo.
+     * @return Una lista con todos los estados, si no hay ninguno retorna null
+     */
+    public ArrayList<Estado> getEstados(){
+        ArrayList<Estado> estados = new ArrayList<Estado>();
+        for(ObjetoGrafico obj : objetosGraficos){
+            if(obj.getClass().getSuperclass() == Estado.class){
+                Estado estAux = (Estado) obj;
+                estados.add(estAux);
+            }
+        }
+        return estados;
+    }
+
+     /**
+     * Obtiene todas las transiciones del lienzo.
+     * @return Una lista con todas las transiciones, si no hay ninguna retorna null
+     */
+    public ArrayList<Transicion> getTransiciones(){
+        ArrayList<Transicion> transiciones = new ArrayList<Transicion>();
+        for(ObjetoGrafico obj : objetosGraficos){
+            if(obj.getClass().getSuperclass() == Transicion.class){
+                Transicion tranAux = (Transicion) obj;
+                transiciones.add(tranAux);
+            }
+        }
+        return transiciones;
     }
 
     /**
@@ -265,6 +302,43 @@ public class Lienzo extends JPanel implements IMemento{
             }
         }
         return est;
+    }
+
+    /**
+     * Obtiene la escala del lienzo
+     * @return escala actual del lienzo
+     */
+    public float getEscala() {
+        return escala;
+    }
+
+    /**
+     * Establece la escala para el lienzo [0.1 a 2.0]
+     * @param escala La escala que se quiere establece [minimo = 0.1]
+     * [máximo = 2.0]
+     */
+    public void setEscala(float escala) {
+        this.escala = escala;
+        this.repaint();
+    }
+
+    /**
+     * Verifica si el lienzo está en modo vista previa, si es así, entonces
+     * el lienzo no escuchara ningun evento.
+     * @return True o False dependiendo del modo en que esté el lienzo.
+     */
+    public boolean isVistaPrevia() {
+        return vistaPrevia;
+    }
+
+    /**
+     * Establece si el lienzo está en vista previa o no. Si es así, entonces
+     * el lienzo no escuchara ningun evento.
+     * @param vistaPrevia True para indicar al lienzo que se mantenga en vista
+     * previa, false para que se comporte normalmente.
+     */
+    public void setVistaPrevia(boolean vistaPrevia) {
+        this.vistaPrevia = vistaPrevia;
     }
 
 }
