@@ -86,7 +86,7 @@ public class TransicionArco extends Transicion implements Serializable {
         inicio = new Point (puertosInicial[puertosInicio].x, puertosInicial[puertosInicio].y);
         fin = new Point (puertosFinal[puertosFin].x, puertosFinal[puertosFin].y);
 
-        if((puertosInicial[puertosInicio].x != puertosFinal[puertosFin].x) ||
+        if((puertosInicial[puertosInicio].x != puertosFinal[puertosFin].x) &&
            (puertosInicial[puertosInicio].y != puertosFinal[puertosFin].y)){
 
             /*
@@ -94,7 +94,6 @@ public class TransicionArco extends Transicion implements Serializable {
             * cuadrante del nodo final con respecto al nodo inicial y se aplica
             * el algoritmo para establecer un arco de retorno.
             */
-
             if(TransicionArco.super.isRetorno()){
                 int cuadrante = this.getCuadranteNodoFin(inicio, fin);
                 if(cuadrante == 1){
@@ -202,13 +201,16 @@ public class TransicionArco extends Transicion implements Serializable {
         yCurva = (int) (Math.abs(inicio.getY() + fin.getY())/2);
         xCurva = (int) (Math.abs(inicio.getX() + fin.getX())/2);
         puntoMedio= new Point (xCurva,yCurva);
-
+        
         //Se obtiene el ángulo Tetha en referencia al punto medio y la curvatura
         //que se le quiera dar
         double dY = - (puntoMedio.getY() - fin.getY()) * 1.0;
         double dX = (puntoMedio.getX() - fin.getX()) * 1.0;
+        if(dX == 0){
+            dX=1;
+        }
         float tetha = (float) Math.atan(dY / dX);
-
+        
         //Se obtiene la distancia opuesta y adyacente al angulo Tetha
         int distOpuesta = (int) Math.abs(CURVATURA * Math.sin(tetha));
         int distAdyacente = (int) Math.abs(CURVATURA * Math.cos(tetha));
