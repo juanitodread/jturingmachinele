@@ -421,6 +421,14 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JButton" name="jButton1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jButton1"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnlNorteDerecha">
@@ -478,6 +486,9 @@
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="verticalTextPosition" type="int" value="3"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tBtnVistaPreviaActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -513,6 +524,9 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnlSurDerecha">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="pnlSurDerecha.setVisible(false);"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
               <BorderConstraints direction="East"/>
@@ -540,9 +554,17 @@
                   <Dimension value="[23, 23]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenosZoomActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JSlider" name="sldZoom">
               <Properties>
+                <Property name="maximum" type="int" value="200"/>
+                <Property name="minimum" type="int" value="25"/>
+                <Property name="minorTickSpacing" type="int" value="25"/>
+                <Property name="paintTicks" type="boolean" value="true"/>
+                <Property name="value" type="int" value="100"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[150, 24]"/>
                 </Property>
@@ -553,6 +575,9 @@
                   <Dimension value="[150, 24]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sldZoomStateChanged"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnMasZoom">
               <Properties>
@@ -571,6 +596,9 @@
                   <Dimension value="[23, 23]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMasZoomActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

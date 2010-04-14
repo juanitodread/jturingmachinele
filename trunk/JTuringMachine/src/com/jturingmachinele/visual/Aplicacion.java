@@ -18,10 +18,12 @@ import com.jturingmachinele.graphics.transiciones.TransicionRecta;
 import com.jturingmachinele.persistencia.PersistirXML;
 import com.jturingmachinele.util.ExtencionArchivo;
 import com.jturingmachinele.visual.componentes.Lienzo;
+import com.sun.awt.AWTUtilities;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -98,6 +100,7 @@ public class Aplicacion extends javax.swing.JFrame {
         tBtnCiclo = new javax.swing.JToggleButton();
         tBtnRecta = new javax.swing.JToggleButton();
         tBtnArco = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
         pnlNorteDerecha = new javax.swing.JPanel();
         jtbMaquina = new javax.swing.JToolBar();
         txtCadena = new javax.swing.JTextField();
@@ -108,6 +111,7 @@ public class Aplicacion extends javax.swing.JFrame {
         pnlSurPrincipal = new javax.swing.JPanel();
         lbConsolaError = new javax.swing.JLabel();
         pnlSurDerecha = new javax.swing.JPanel();
+        pnlSurDerecha.setVisible(false);
         btnMenosZoom = new javax.swing.JButton();
         sldZoom = new javax.swing.JSlider();
         btnMasZoom = new javax.swing.JButton();
@@ -210,6 +214,14 @@ public class Aplicacion extends javax.swing.JFrame {
 
         pnlNortePrincipal.add(jtbTransicion);
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        pnlNortePrincipal.add(jButton1);
+
         pnlNorte.add(pnlNortePrincipal, java.awt.BorderLayout.CENTER);
 
         pnlNorteDerecha.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
@@ -235,6 +247,11 @@ public class Aplicacion extends javax.swing.JFrame {
         tBtnVistaPrevia.setFocusable(false);
         tBtnVistaPrevia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tBtnVistaPrevia.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        tBtnVistaPrevia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tBtnVistaPreviaActionPerformed(evt);
+            }
+        });
         jtbMaquina.add(tBtnVistaPrevia);
 
         pnlNorteDerecha.add(jtbMaquina);
@@ -260,11 +277,26 @@ public class Aplicacion extends javax.swing.JFrame {
         btnMenosZoom.setMaximumSize(new java.awt.Dimension(20, 23));
         btnMenosZoom.setMinimumSize(new java.awt.Dimension(20, 23));
         btnMenosZoom.setPreferredSize(new java.awt.Dimension(23, 23));
+        btnMenosZoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenosZoomActionPerformed(evt);
+            }
+        });
         pnlSurDerecha.add(btnMenosZoom);
 
+        sldZoom.setMaximum(200);
+        sldZoom.setMinimum(25);
+        sldZoom.setMinorTickSpacing(25);
+        sldZoom.setPaintTicks(true);
+        sldZoom.setValue(100);
         sldZoom.setMaximumSize(new java.awt.Dimension(150, 24));
         sldZoom.setMinimumSize(new java.awt.Dimension(150, 24));
         sldZoom.setPreferredSize(new java.awt.Dimension(150, 24));
+        sldZoom.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sldZoomStateChanged(evt);
+            }
+        });
         pnlSurDerecha.add(sldZoom);
 
         btnMasZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/magnifier_zoom_in.png"))); // NOI18N
@@ -273,6 +305,11 @@ public class Aplicacion extends javax.swing.JFrame {
         btnMasZoom.setMaximumSize(new java.awt.Dimension(23, 23));
         btnMasZoom.setMinimumSize(new java.awt.Dimension(23, 23));
         btnMasZoom.setPreferredSize(new java.awt.Dimension(23, 23));
+        btnMasZoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMasZoomActionPerformed(evt);
+            }
+        });
         pnlSurDerecha.add(btnMasZoom);
 
         pnlSur.add(pnlSurDerecha, java.awt.BorderLayout.EAST);
@@ -630,6 +667,29 @@ public class Aplicacion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+//        String cad = JOptionPane.showInputDialog(this,"Visibiliada");
+//        AWTUtilities.setWindowOpacity(Aplicacion.this, Float.parseFloat(cad));
+        lienzo.getEstados();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tBtnVistaPreviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tBtnVistaPreviaActionPerformed
+        vistaPrevia(tBtnVistaPrevia.isSelected());
+    }//GEN-LAST:event_tBtnVistaPreviaActionPerformed
+
+    private void sldZoomStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldZoomStateChanged
+        // TODO add your handling code here:
+        lienzo.setEscala(sldZoom.getValue() / 100F);
+    }//GEN-LAST:event_sldZoomStateChanged
+
+    private void btnMenosZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenosZoomActionPerformed
+        sldZoom.setValue(sldZoom.getValue() - 10);
+    }//GEN-LAST:event_btnMenosZoomActionPerformed
+
+    private void btnMasZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasZoomActionPerformed
+        sldZoom.setValue(sldZoom.getValue() + 10);
+    }//GEN-LAST:event_btnMasZoomActionPerformed
+
     //Configuramos el popUp
     private void configurarPopup(){
         //Añadimos el item para eliminar
@@ -651,14 +711,19 @@ public class Aplicacion extends javax.swing.JFrame {
             item.addActionListener(manejador);
             menuEstados.add(item);
         }else{
-            for(ObjetoGrafico estado : lienzo.getObjetosGraficos()){
-                if(estado.getClass().getName().contains("Estado")){
-                    Estado aux = (Estado)estado;
-                    JMenuItem item = new JMenuItem(aux.getEtiqueta());
-                    item.addActionListener(manejador);
-                    menuEstados.add(item);
-                }
+            for(Estado est : lienzo.getEstados()){
+                JMenuItem item = new JMenuItem(est.getEtiqueta());
+                item.addActionListener(manejador);
+                menuEstados.add(item);
             }
+//            for(ObjetoGrafico estado : lienzo.getObjetosGraficos()){
+//                if(estado.getClass().getName().contains("Estado")){
+//                    Estado aux = (Estado)estado;
+//                    JMenuItem item = new JMenuItem(aux.getEtiqueta());
+//                    item.addActionListener(manejador);
+//                    menuEstados.add(item);
+//                }
+//            }
         }
     }
 
@@ -669,17 +734,23 @@ public class Aplicacion extends javax.swing.JFrame {
      */
     private boolean definirRetorno(Transicion transicion){
         boolean retorno = false;
-        for(ObjetoGrafico e: lienzo.getObjetosGraficos()){
-            if(e.getClass().getSuperclass().equals(Transicion.class)){
-                Transicion tran = (Transicion)e;
-                if(transicion.getNodoFinal().equals(tran.getNodoInicial())){
-                    retorno = true;
-                    break;
-                }                
-            }else{
-                retorno = false;
+        for(Transicion tran : lienzo.getTransiciones()){
+            if(transicion.getNodoFinal().equals(tran.getNodoInicial())){
+                retorno = true;
+                break;
             }
         }
+//        for(ObjetoGrafico e: lienzo.getObjetosGraficos()){
+//            if(e.getClass().getSuperclass().equals(Transicion.class)){
+//                Transicion tran = (Transicion)e;
+//                if(transicion.getNodoFinal().equals(tran.getNodoInicial())){
+//                    retorno = true;
+//                    break;
+//                }
+//            }else{
+//                retorno = false;
+//            }
+//        }
         return retorno;
     }
 
@@ -687,14 +758,19 @@ public class Aplicacion extends javax.swing.JFrame {
     private void lienzoMouseClicked(java.awt.event.MouseEvent evt){
         boolean crear = true;
         if(!evt.isMetaDown()){
-            for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
-                if(obj.getClass().getName().contains("Estado")){
-                    Estado est = (Estado) obj;
-                    if(est.isFlotando(evt.getX(), evt.getY())){
-                        crear = false;
-                    }
+            for(Estado est : lienzo.getEstados()){
+                if(est.isFlotando(evt.getX(), evt.getY())){
+                    crear = false;
                 }
             }
+//            for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
+//                if(obj.getClass().getName().contains("Estado")){
+//                    Estado est = (Estado) obj;
+//                    if(est.isFlotando(evt.getX(), evt.getY())){
+//                        crear = false;
+//                    }
+//                }
+//            }
             if(crear){
                 Estado nuevo;
                 String etiqueta = JOptionPane.showInputDialog(this, "Etiqueta");
@@ -741,12 +817,15 @@ public class Aplicacion extends javax.swing.JFrame {
                 popUp.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         }else{
-            for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
-                if(obj.getClass().getName().contains("Estado")){
-                    Estado est = (Estado) obj;
-                    est.setMoving(false);
-                }
+            for(Estado est : lienzo.getEstados()){
+                est.setMoving(false);
             }
+//            for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
+//                if(obj.getClass().getName().contains("Estado")){
+//                    Estado est = (Estado) obj;
+//                    est.setMoving(false);
+//                }
+//            }
         }
     }
 
@@ -772,45 +851,80 @@ public class Aplicacion extends javax.swing.JFrame {
     //Evento que sucede cuando se arrastra un estado.
     private void lienzoMouseDragged(java.awt.event.MouseEvent evt){
         if(!evt.isMetaDown()){
-            for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
-                if(obj.getClass().getName().contains("Estado")){
-                    Estado est = (Estado) obj;
-                    if(!est.isFlotando(evt.getX(), evt.getY()) && !est.isMoving()){
-                        est.setMoving(false);
-                    }else if((est.isFlotando(evt.getX(), evt.getY()) || est.isMoving()) && !est.isBloqueado()){
-                        est.setMoving(true);
-                        Point posicion = new Point(evt.getX() - Estado.RADIO,
-                                                   evt.getY() - Estado.RADIO);
-                        est.setCoordenadaXY(posicion);
-                        lienzo.bloquearEstados(est);
-                        lienzo.repaint();
-                    }
-                }                
+            for(Estado est : lienzo.getEstados()){
+                if(!est.isFlotando(evt.getX(), evt.getY()) && !est.isMoving()){
+                    est.setMoving(false);
+                }else if((est.isFlotando(evt.getX(), evt.getY()) || est.isMoving()) && !est.isBloqueado()){
+                    est.setMoving(true);
+                    Point posicion = new Point(evt.getX() - Estado.RADIO,
+                                               evt.getY() - Estado.RADIO);
+                    est.setCoordenadaXY(posicion);
+                    lienzo.bloquearEstados(est);
+                    lienzo.repaint();
+                }
             }
+//            for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
+//                if(obj.getClass().getName().contains("Estado")){
+//                    Estado est = (Estado) obj;
+//                    if(!est.isFlotando(evt.getX(), evt.getY()) && !est.isMoving()){
+//                        est.setMoving(false);
+//                    }else if((est.isFlotando(evt.getX(), evt.getY()) || est.isMoving()) && !est.isBloqueado()){
+//                        est.setMoving(true);
+//                        Point posicion = new Point(evt.getX() - Estado.RADIO,
+//                                                   evt.getY() - Estado.RADIO);
+//                        est.setCoordenadaXY(posicion);
+//                        lienzo.bloquearEstados(est);
+//                        lienzo.repaint();
+//                    }
+//                }
+//            }
         }
     }
 
     //Evento para cambiar el color de un estado cuando el raton pase por encima.
     private void lienzoMouseMoved(java.awt.event.MouseEvent evt){
-        for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
-            if(obj.getClass().getName().contains("Estado")){
-                Estado est = (Estado) obj;
-                est.setBloqueado(false);
-                if(est.isFlotando(evt.getX(), evt.getY()) && !est.isExitado()){
-                    est.exitar();
-                    est.setExitado(true);
-                }else if(!est.isFlotando(evt.getX(), evt.getY()) && est.isExitado()){
-                    est.desexitar();
-                    est.setExitado(false);
-                }
-                lienzo.repaint();                
+        for(Estado est : lienzo.getEstados()){
+            est.setBloqueado(false);
+            if(est.isFlotando(evt.getX(), evt.getY()) && !est.isExitado()){
+                est.exitar();
+                est.setExitado(true);
+            }else if(!est.isFlotando(evt.getX(), evt.getY()) && est.isExitado()){
+                est.desexitar();
+                est.setExitado(false);
             }
+            lienzo.repaint();
         }
+//        for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
+//            if(obj.getClass().getName().contains("Estado")){
+//                Estado est = (Estado) obj;
+//                est.setBloqueado(false);
+//                if(est.isFlotando(evt.getX(), evt.getY()) && !est.isExitado()){
+//                    est.exitar();
+//                    est.setExitado(true);
+//                }else if(!est.isFlotando(evt.getX(), evt.getY()) && est.isExitado()){
+//                    est.desexitar();
+//                    est.setExitado(false);
+//                }
+//                lienzo.repaint();
+//            }
+//        }
     }
 
     private void itmEliminarActionPerformed(ActionEvent e){
         JMenuItem item = (JMenuItem) e.getSource();
         lienzo.eliminarEstado(item.getName());
+    }
+
+
+    private void vistaPrevia(boolean isVistaPrevia){
+        boolean activar = (isVistaPrevia ? false : true);
+        lienzo.setVistaPrevia(isVistaPrevia);
+        pnlNortePrincipal.setVisible(activar);
+        pnlEste.setVisible(activar);
+        pnlSurDerecha.setVisible(isVistaPrevia);
+        if(!isVistaPrevia){
+            sldZoom.setValue(100);
+        }
     }
 
     private void configurarGUI(){
@@ -825,28 +939,38 @@ public class Aplicacion extends javax.swing.JFrame {
         lienzo.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lienzoMouseReleased(evt);
+                if(!lienzo.isVistaPrevia()){
+                    lienzoMouseReleased(evt);
+                }
             }
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt){
-                lienzoMouseClicked(evt);
+                if(!lienzo.isVistaPrevia()){
+                    lienzoMouseClicked(evt);
+                }
             }
 
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt){
-                lienzoMousePressed(evt);
+                if(!lienzo.isVistaPrevia()){
+                    lienzoMousePressed(evt);
+                }
             }
         });
 
         lienzo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter(){
             @Override
             public void mouseDragged(java.awt.event.MouseEvent evt) {
-                lienzoMouseDragged(evt);
+                if(!lienzo.isVistaPrevia()){
+                    lienzoMouseDragged(evt);
+                }
             }
             @Override
             public void mouseMoved(java.awt.event.MouseEvent evt) {
-                lienzoMouseMoved(evt);
+                if(!lienzo.isVistaPrevia()){
+                    lienzoMouseMoved(evt);
+                }
             }
         });
 
@@ -879,6 +1003,7 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemNuevoArchivo;
     private javax.swing.JMenuItem itemRehacer;
     private javax.swing.JMenuItem itemSalir;
+    private javax.swing.JButton jButton1;
     private javax.swing.JToolBar jtbEstado;
     private javax.swing.JToolBar jtbMaquina;
     private javax.swing.JToolBar jtbTransicion;
