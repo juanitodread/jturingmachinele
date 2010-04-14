@@ -7,6 +7,7 @@
 package com.jturingmachinele;
 
 import com.jturingmachinele.visual.Aplicacion;
+import com.jturingmachinele.visual.Splash;
 
 /**
  * Clase principal de la aplicación.
@@ -19,6 +20,7 @@ public class Main {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Aplicacion().setVisible(true);
+                //new Thread(new Splash()).start(); //Arranca el Splash, pendiente hasta terminar JTM
             }
         });
    }
