@@ -23,6 +23,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 /**
  * JFrame que representa la interfaz para la aplicación jTuringMachine.
@@ -55,16 +58,17 @@ public class Aplicacion extends javax.swing.JFrame {
     private File archivo = null;
     private int apariencia;
     private boolean openFile = false;
-    private JPopupMenu popUp;
-    private JMenuItem itmEliminar;
-    private JMenu menuEstados;
+    private JPopupMenu popUp, popUpTree;
+    private JMenuItem itmEliminar,itmEliminarTree;
+    private JMenu menuEstados, menuEstadosTree, menuTransiciones, menuTransicionesTree;
     private int popUpX, popUpY;
     private String tipoTransicion;
     private DefaultTreeModel modelo;
     private DefaultMutableTreeNode padre;
     private JTree treeArbolObjetos;
     private JScrollPane scrollArbolObjetos = new JScrollPane();
-    DefaultTreeCellRenderer render;
+    private DefaultTreeCellRenderer render;
+    private int tipoPopup;
 
     public static final int LINUX = 0;
     public static final int WINDOWS = 1;
@@ -79,6 +83,7 @@ public class Aplicacion extends javax.swing.JFrame {
             "/com/jturingmachinele/visual/img/jTM_Logo.png")).getImage());
             configurarJTree();
             configurarPopup();
+            configurarPopupJTree();                    
             setVisible(true);
             configurarGUI();
     }
@@ -516,15 +521,16 @@ public class Aplicacion extends javax.swing.JFrame {
             setTitle(String.format("%s - jTuringMachine",
                                    archivo.getName()));
             lienzo.setObjetosGraficos(PersistirXML.abrir(archivo));
+            actualizaNodosArbol(lienzo.getObjetosGraficos());
             refrescarMenuEstados(false, null);
+            refrescarMenuEstadosTree(false,null);
             itemCerrarArchivo.setEnabled(true);
             openFile = true;
             lienzo.setEnabled(true);
             lienzo.setVisible(true);
         }
         selector = null;
-        archivo = null;
-        actualizaNodosArbol(lienzo.getObjetosGraficos());
+        archivo = null;        
     }//GEN-LAST:event_itemAbrirArchivoActionPerformed
 
     private void itemGuardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGuardarArchivoActionPerformed
@@ -696,16 +702,34 @@ public class Aplicacion extends javax.swing.JFrame {
         popUp = new JPopupMenu();
         itmEliminar = new JMenuItem("Eliminar estado");
         menuEstados = new JMenu("Transición");
+        menuTransiciones = new JMenu("Eliminar transiciones");
         refrescarMenuEstados(false,null);
         popUp.add(itmEliminar);
         popUp.add(menuEstados);
+        popUp.add(menuTransiciones);
+    }
+
+    /**
+     * Configura el popUp para el JTree
+     */
+    private void configurarPopupJTree(){
+        //Se añaden los items al popup
+        popUpTree = new JPopupMenu();
+        itmEliminarTree = new JMenuItem("Eliminar estado: ");
+        menuEstadosTree = new JMenu("Transición");
+        refrescarMenuEstadosTree(false, null);
+        popUpTree.add(itmEliminarTree);
+        popUpTree.add(menuEstadosTree);        
     }
 
     //Refrescamos el combo de transiciones del popUp
     private void refrescarMenuEstados(boolean ciclo, String pareja){
         manejadorMenuPopUp manejador = new manejadorMenuPopUp();
+        manejadorMenuTransiciones manejadorT = new manejadorMenuTransiciones();
         menuEstados.removeAll();
         menuEstados.setText(String.format("Transición %s", tipoTransicion));
+        menuTransiciones.removeAll();
+        menuTransiciones.setText("Eliminar Transiciones");
         if(ciclo){
             JMenuItem item = new JMenuItem(pareja);
             item.addActionListener(manejador);
@@ -715,6 +739,13 @@ public class Aplicacion extends javax.swing.JFrame {
                 JMenuItem item = new JMenuItem(est.getEtiqueta());
                 item.addActionListener(manejador);
                 menuEstados.add(item);
+            }
+            if(pareja!=null){
+                for(Transicion tran : lienzo.getTransicionesDeEstado(pareja)){
+                    JMenuItem itemT = new JMenuItem(tran.getEtiqueta());
+                    itemT.addActionListener(manejadorT);
+                    menuTransiciones.add(itemT);
+                }
             }
 //            for(ObjetoGrafico estado : lienzo.getObjetosGraficos()){
 //                if(estado.getClass().getName().contains("Estado")){
@@ -728,29 +759,51 @@ public class Aplicacion extends javax.swing.JFrame {
     }
 
     /**
+     * Actualiza los items del JMenu del popUpTree con los estados creados en el lienzo.
+     * @param ciclo
+     * @param etiqueta
+     */
+    private void refrescarMenuEstadosTree(boolean ciclo, String pareja){
+        manejadorMenuPopUp manejador = new manejadorMenuPopUp();
+        manejadorMenuTransiciones manejadorT = new manejadorMenuTransiciones();
+        menuEstadosTree.removeAll();
+        menuEstadosTree.setText(String.format("Transición %s", tipoTransicion));
+        menuTransiciones.removeAll();
+        menuTransiciones.setText("Eliminar Transiciones ");
+        if(ciclo){
+            JMenuItem item = new JMenuItem(pareja);
+            item.addActionListener(manejador);
+            menuEstadosTree.add(item);
+        }else{
+                for(Estado est : lienzo.getEstados()){
+                    JMenuItem item = new JMenuItem(est.getEtiqueta());
+                    item.addActionListener(manejador);
+                    menuEstadosTree.add(item);
+                }
+            }
+            if(pareja!=null){
+                for(Transicion tran : lienzo.getTransicionesDeEstado(pareja)){
+                    JMenuItem itemT = new JMenuItem(tran.getEtiqueta());
+                    itemT.addActionListener(manejadorT);
+                    menuTransiciones.add(itemT);
+                }
+            }
+    }
+
+    /**
      * Define si una transición esta retornando de un estado al que ya ha llegado
-     * otra transición y va hacia el mismo estado de donde salió la anterior.
+     * otra transición y esta va hacia el mismo estado de donde salió la anterior.
      * @param transicion Objeto de tipo <code>Transicion</code>
      */
     private boolean definirRetorno(Transicion transicion){
         boolean retorno = false;
         for(Transicion tran : lienzo.getTransiciones()){
-            if(transicion.getNodoFinal().equals(tran.getNodoInicial())){
+            if(transicion.getNodoFinal().equals(tran.getNodoInicial()) &&
+               transicion.getNodoInicial().equals(tran.getNodoFinal())){
                 retorno = true;
                 break;
             }
         }
-//        for(ObjetoGrafico e: lienzo.getObjetosGraficos()){
-//            if(e.getClass().getSuperclass().equals(Transicion.class)){
-//                Transicion tran = (Transicion)e;
-//                if(transicion.getNodoFinal().equals(tran.getNodoInicial())){
-//                    retorno = true;
-//                    break;
-//                }
-//            }else{
-//                retorno = false;
-//            }
-//        }
         return retorno;
     }
 
@@ -783,12 +836,13 @@ public class Aplicacion extends javax.swing.JFrame {
                     lienzo.setObjetoGrafico(nuevo);
                     refrescarMenuEstados(false,null);
                     actualizaNodosArbol(lienzo.getObjetosGraficos());
+                    refrescarMenuEstadosTree(false,null);
                 }
             }
         }
     }
 
-    //Evento que sucede cuando se mueve el ratón.
+    //Evento que sucede cuando se suelta el ratón.
     private void lienzoMouseReleased(java.awt.event.MouseEvent evt){
         //Valido si es un clic derecho
         if(evt.isPopupTrigger()){
@@ -827,9 +881,12 @@ public class Aplicacion extends javax.swing.JFrame {
 //                }
 //            }
         }
+        tipoPopup=0;//Define el popup a utilizar
     }
 
+    //Evento que sucede cuando se presiona el ratón.
     private void lienzoMousePressed(java.awt.event.MouseEvent evt){
+        //Valido si es un clic derecho
         if(evt.isPopupTrigger()){
             Estado est = lienzo.getEstadoSeleccionado(evt.getX(), evt.getY());
             if(est != null){
@@ -846,6 +903,7 @@ public class Aplicacion extends javax.swing.JFrame {
                 popUp.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         }
+        tipoPopup=0;//Define el popup a utilizar
     }
 
     //Evento que sucede cuando se arrastra un estado.
@@ -910,11 +968,92 @@ public class Aplicacion extends javax.swing.JFrame {
 //        }
     }
 
+    //Evento para eliminar un Estado desde los PopUp
     private void itmEliminarActionPerformed(ActionEvent e){
         JMenuItem item = (JMenuItem) e.getSource();
         lienzo.eliminarEstado(item.getName());
     }
 
+    //Evento que sucede cuando se presiona el ratón.
+     private void treemousePressed(java.awt.event.MouseEvent e) {
+         //Valido si es un clic derecho
+         if(e.isPopupTrigger()){
+            TreePath selPath = treeArbolObjetos.getPathForLocation(e.getX(), e.getY());
+            if(selPath!=null){
+                DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                Estado est = lienzo.getEstado(nodo.toString().replaceFirst("Estado: ", ""));
+                if(est != null){
+                    popUpX = e.getX();
+                    popUpY = e.getY();
+                    itmEliminarTree.setText(String.format("Eliminar estado: %s",
+                                                      est.getEtiqueta()));
+                    itmEliminarTree.setName(est.getEtiqueta());
+                    if(est.getEtiqueta().equals("q1")){
+                        itmEliminarTree.setVisible(false);
+                    }else{
+                        itmEliminarTree.setVisible(true);
+                    }
+                    boolean ciclo = false;
+                    if(tBtnCiclo.isSelected()){
+                        ciclo = true;
+                        tipoTransicion = "ciclo";
+                    }else if(tBtnRecta.isSelected()){
+                        tipoTransicion = "recta";
+                    }else{
+                        tipoTransicion = "arco";
+                    }
+                    refrescarMenuEstadosTree(ciclo, est.getEtiqueta());
+                    popUpTree.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        }else{
+            for(Estado est : lienzo.getEstados()){
+                est.setMoving(false);
+            }
+        }
+         tipoPopup=1;//Define el popup a utilizar
+     }
+
+     //Evento que sucede cuando se suelta el ratón.
+     private void treemouseReleased(java.awt.event.MouseEvent e) {
+         //Valido si es un clic derecho
+         if(e.isPopupTrigger()){
+            TreePath selPath = treeArbolObjetos.getPathForLocation(e.getX(), e.getY());
+            if(selPath!= null){
+                DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                Estado est = lienzo.getEstado(nodo.toString().replaceFirst("Estado: ", ""));
+                if(est != null){
+                    popUpX = e.getX();
+                    popUpY = e.getY();
+                    itmEliminarTree.setText(String.format("Eliminar estado: %s",
+                                                      est.getEtiqueta()));
+                    itmEliminarTree.setName(est.getEtiqueta());
+                    if(est.getEtiqueta().equals("q1")){
+                        itmEliminarTree.setVisible(false);
+                    }else{
+                        itmEliminarTree.setVisible(true);
+                    }
+                    boolean ciclo = false;
+                    if(tBtnCiclo.isSelected()){
+                        ciclo = true;
+                        tipoTransicion = "ciclo";
+                    }else if(tBtnRecta.isSelected()){
+                        tipoTransicion = "recta";
+                    }else{
+                        tipoTransicion = "arco";
+                    }
+                    refrescarMenuEstadosTree(ciclo, est.getEtiqueta());
+                    popUpTree.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        }else{
+            for(Estado est : lienzo.getEstados()){
+                est.setMoving(false);
+            }
+        }
+         tipoPopup=1;//Define el popup a utilizar
+     }
+    
 
     private void vistaPrevia(boolean isVistaPrevia){
         boolean activar = (isVistaPrevia ? false : true);
@@ -974,8 +1113,7 @@ public class Aplicacion extends javax.swing.JFrame {
             }
         });
 
-        //Eventos del popUp
-
+        //Eventos del popUp para el lienzo
         itmEliminar.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -984,60 +1122,40 @@ public class Aplicacion extends javax.swing.JFrame {
             }
         });
 
+        itmEliminarTree.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                itmEliminarActionPerformed(e);
+                actualizaNodosArbol(lienzo.getObjetosGraficos());
+            }
+        });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuBar barraMenu;
-    private javax.swing.ButtonGroup btnGrupoApariencias;
-    private javax.swing.ButtonGroup btnGrupoEstados;
-    private javax.swing.ButtonGroup btnGrupoTransiciones;
-    private javax.swing.JButton btnMasZoom;
-    private javax.swing.JButton btnMenosZoom;
-    private javax.swing.JButton btnValidar;
-    private javax.swing.JMenuItem itemAbrirArchivo;
-    private javax.swing.JMenuItem itemAcercaDe;
-    private javax.swing.JMenuItem itemAyuda;
-    private javax.swing.JMenuItem itemCerrarArchivo;
-    private javax.swing.JMenuItem itemDeshacer;
-    private javax.swing.JMenuItem itemGuardarArchivo;
-    private javax.swing.JMenuItem itemNuevoArchivo;
-    private javax.swing.JMenuItem itemRehacer;
-    private javax.swing.JMenuItem itemSalir;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JToolBar jtbEstado;
-    private javax.swing.JToolBar jtbMaquina;
-    private javax.swing.JToolBar jtbTransicion;
-    private javax.swing.JLabel lbConsolaError;
-    private javax.swing.JMenu menuApariencias;
-    private javax.swing.JMenu menuArchivo;
-    private javax.swing.JMenu menuAyuda;
-    private javax.swing.JMenu menuEdicion;
-    private javax.swing.JMenu menuHerramientas;
-    private javax.swing.JPanel pnlEste;
-    private javax.swing.JPanel pnlNorte;
-    private javax.swing.JPanel pnlNorteDerecha;
-    private javax.swing.JPanel pnlNortePrincipal;
-    private javax.swing.JPanel pnlPrincipal;
-    private javax.swing.JPanel pnlSur;
-    private javax.swing.JPanel pnlSurDerecha;
-    private javax.swing.JPanel pnlSurPrincipal;
-    private javax.swing.JRadioButtonMenuItem rdioMenuLinux;
-    private javax.swing.JRadioButtonMenuItem rdioMenuMetal;
-    private javax.swing.JRadioButtonMenuItem rdioMenuSolaris;
-    private javax.swing.JRadioButtonMenuItem rdioMenuWindows;
-    private javax.swing.JSeparator separador1;
-    private javax.swing.JToolBar.Separator separadorMaquina;
-    private javax.swing.JSlider sldZoom;
-    private javax.swing.JToggleButton tBtnArco;
-    private javax.swing.JToggleButton tBtnCiclo;
-    private javax.swing.JToggleButton tBtnFinal;
-    private javax.swing.JToggleButton tBtnRecta;
-    private javax.swing.JToggleButton tBtnTransicion;
-    private javax.swing.JToggleButton tBtnVistaPrevia;
-    private javax.swing.JTextField txtCadena;
-    // End of variables declaration//GEN-END:variables
-
     /**
+     * Este método crea y asigna los eventos <code>MouseListener</code> al JTree
+     */
+    public void agregarEventosTree(){
+        //Clase anónima para crear Eventos del Mouse
+        MouseListener ml = new MouseAdapter() {
+        
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e){
+                if(!lienzo.isVistaPrevia()){
+                    treemousePressed(e);
+                }
+            }
+            
+           @Override
+            public void mouseReleased(java.awt.event.MouseEvent e){
+                if(!lienzo.isVistaPrevia()){
+                    treemouseReleased(e);
+                }
+           }
+        };
+        treeArbolObjetos.addMouseListener(ml);
+    }
+
+     /**
      * @return the apariencia
      */
     public int getApariencia() {
@@ -1097,7 +1215,7 @@ public class Aplicacion extends javax.swing.JFrame {
 
         getContentPane().add(pnlEste, java.awt.BorderLayout.LINE_START);
 
-        // Cambiamos los iconos
+        // Cambiamos los iconos por imagenes nuevas
         render= (DefaultTreeCellRenderer)treeArbolObjetos.getCellRenderer();
         render.setLeafIcon(new ImageIcon(getClass().getResource(
                 "/com/jturingmachinele/visual/img/Estado_Transicion.png")));
@@ -1133,14 +1251,72 @@ public class Aplicacion extends javax.swing.JFrame {
                                     + tran.getNodoInicial().getEtiqueta())){
                                 nodoEstado = (DefaultMutableTreeNode)padre.getChildAt(a);
                             }
-                        } 
+                        }
                         nodoEstado.add(nodoTransicion);
                     }
             }
             modelo.setRoot(padre);
-            treeArbolObjetos.setModel(modelo);                
+            treeArbolObjetos.setModel(modelo);
+            agregarEventosTree();
     }
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuBar barraMenu;
+    private javax.swing.ButtonGroup btnGrupoApariencias;
+    private javax.swing.ButtonGroup btnGrupoEstados;
+    private javax.swing.ButtonGroup btnGrupoTransiciones;
+    private javax.swing.JButton btnMasZoom;
+    private javax.swing.JButton btnMenosZoom;
+    private javax.swing.JButton btnValidar;
+    private javax.swing.JMenuItem itemAbrirArchivo;
+    private javax.swing.JMenuItem itemAcercaDe;
+    private javax.swing.JMenuItem itemAyuda;
+    private javax.swing.JMenuItem itemCerrarArchivo;
+    private javax.swing.JMenuItem itemDeshacer;
+    private javax.swing.JMenuItem itemGuardarArchivo;
+    private javax.swing.JMenuItem itemNuevoArchivo;
+    private javax.swing.JMenuItem itemRehacer;
+    private javax.swing.JMenuItem itemSalir;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JToolBar jtbEstado;
+    private javax.swing.JToolBar jtbMaquina;
+    private javax.swing.JToolBar jtbTransicion;
+    private javax.swing.JLabel lbConsolaError;
+    private javax.swing.JMenu menuApariencias;
+    private javax.swing.JMenu menuArchivo;
+    private javax.swing.JMenu menuAyuda;
+    private javax.swing.JMenu menuEdicion;
+    private javax.swing.JMenu menuHerramientas;
+    private javax.swing.JPanel pnlEste;
+    private javax.swing.JPanel pnlNorte;
+    private javax.swing.JPanel pnlNorteDerecha;
+    private javax.swing.JPanel pnlNortePrincipal;
+    private javax.swing.JPanel pnlPrincipal;
+    private javax.swing.JPanel pnlSur;
+    private javax.swing.JPanel pnlSurDerecha;
+    private javax.swing.JPanel pnlSurPrincipal;
+    private javax.swing.JRadioButtonMenuItem rdioMenuLinux;
+    private javax.swing.JRadioButtonMenuItem rdioMenuMetal;
+    private javax.swing.JRadioButtonMenuItem rdioMenuSolaris;
+    private javax.swing.JRadioButtonMenuItem rdioMenuWindows;
+    private javax.swing.JSeparator separador1;
+    private javax.swing.JToolBar.Separator separadorMaquina;
+    private javax.swing.JSlider sldZoom;
+    private javax.swing.JToggleButton tBtnArco;
+    private javax.swing.JToggleButton tBtnCiclo;
+    private javax.swing.JToggleButton tBtnFinal;
+    private javax.swing.JToggleButton tBtnRecta;
+    private javax.swing.JToggleButton tBtnTransicion;
+    private javax.swing.JToggleButton tBtnVistaPrevia;
+    private javax.swing.JTextField txtCadena;
+    // End of variables declaration//GEN-END:variables
+
+   /**
+     * Clase interna que permite agregar el evento actionPerformed a los
+     * item dinámicos del JPopuMenu popUp del <code>Lienzo</code> y el JTree.
+     * Evento que crea un objeto de tipo <code>Transicion</code> en el lienzo
+     * y actualiza los nodos del JTree.
+     */
     private class manejadorMenuPopUp implements ActionListener{
         public void actionPerformed(ActionEvent evento){
             Transicion trans;
@@ -1149,14 +1325,24 @@ public class Aplicacion extends javax.swing.JFrame {
                                                           "jTuringMachine", 
                                                           JOptionPane.INFORMATION_MESSAGE);
             if(etiqueta != null && !etiqueta.isEmpty()){
-                Estado estIni = lienzo.getEstadoSeleccionado(popUpX, popUpY);
-                Estado estFin = lienzo.getEstado(evento.getActionCommand());
+                Estado estIni;
+                Estado estFin;
+                if(tipoPopup==0){
+                    estIni = lienzo.getEstadoSeleccionado(popUpX, popUpY);
+                    estFin = lienzo.getEstado(evento.getActionCommand());
+                }else{
+                    TreePath selPath = treeArbolObjetos.getPathForLocation(popUpX, popUpY);
+                    DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                    estIni = lienzo.getEstado(nodo.toString().replaceFirst("Estado: ", ""));
+                    estFin = lienzo.getEstado(evento.getActionCommand());
+                }
                 if(tBtnCiclo.isSelected()){
                     trans = new TransicionCiclo(estIni, etiqueta);
                 }else if(tBtnRecta.isSelected()){
                     trans = new TransicionRecta(estIni, estFin, etiqueta);
                 }else{
                     trans = new TransicionArco(estIni, estFin, etiqueta);
+                    trans.setRetorno(definirRetorno(trans));
                 }
                 lienzo.setObjetoGrafico(trans);
                 actualizaNodosArbol(lienzo.getObjetosGraficos());
@@ -1164,5 +1350,19 @@ public class Aplicacion extends javax.swing.JFrame {
         }
     }
 
+   /**
+     * Clase interna que permite agregar el evento actionPerformed a los
+     * item dinámicos del JPopuMenu popUp del <code>Lienzo</code> y el JTree.
+     * Evento que elimina un objeto de tipo <code>Transicion</code> en el lienzo
+     * y actualiza los nodos del JTree.
+     */
+    private class manejadorMenuTransiciones implements ActionListener{
+
+        public void actionPerformed(ActionEvent evento) {
+            Transicion trans = lienzo.getTransicion(evento.getActionCommand());
+            lienzo.eliminarTransicion(trans.getEtiqueta());
+        }
+
+    }
 
 }
