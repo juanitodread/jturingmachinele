@@ -1,0 +1,17 @@
+#summary One-sentence summary of this page.
+#labels inicio,Quees,maquina,turing,grafico,grafo
+
+= jTuringMachine =
+
+Es una herramienta que permite representar gráficamente máquinas de Turing en forma de grafos, así como también permite validar alguna cadena para la máquina de Turing representada en cuestión.
+
+
+= Detalles =
+
+jTuringMachine permite realizar tus grafos y guardarlos en un archivo en formato .jtmx que es un xml específico para jTuringMachine.
+
+Al estar desarrollado en la tecnología Java, jTuringMachine aprovecha las bondades de dicha tecnología permitiendo que la aplicación sea multiplataforma y tambien es posible cambiar la apariencia de la aplicación al sistema operativo que se este utilizando (Windows, Linux, Solaris).
+
+jTuringMachine es un proyecto de software libre enfocado al aprendizaje de las máquinas de Turing, más que nada esperamos que sea de utilidad para estudiantes y profesores que cursan e imparten respectivamente materias como Teoría de la computación, Autómatas, etc. También puedes bajarte el código si es que quieres saber como se realizó algún proceso.
+
+Actualmente el proyecto está en fase de desarrollo aunque se ha estado avanzando considerablemente ya que actualmente el sistema funciona en la parte gráfica.
