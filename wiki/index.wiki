@@ -1,6 +1,4 @@
-#summary One-sentence summary of this page.
 #labels inicio,Quees,maquina,turing,grafico,grafo
-
 = jTuringMachine =
 
 Es una herramienta que permite representar gráficamente máquinas de Turing en forma de grafos, así como también permite validar alguna cadena para la máquina de Turing representada en cuestión.
