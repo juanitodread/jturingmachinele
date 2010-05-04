@@ -26,6 +26,7 @@ public class CaretakerLienzo {
     public CaretakerLienzo(){
         estados = new ArrayList<MementoLienzo>();
         posicion = estados.size() - 1;
+        System.out.println(estados.size());
     }
 
     /**
@@ -36,7 +37,9 @@ public class CaretakerLienzo {
         if(posicion > 0){
             posicion--;
         }
-        return (MementoLienzo) estados.get(posicion);
+        System.out.println("--POSICION->" + posicion);
+        System.out.println(estados.get(0).objetosGraficos.size());
+        return (MementoLienzo) estados.get(posicion);        
     }
 
     /**
@@ -47,6 +50,8 @@ public class CaretakerLienzo {
         if(posicion < estados.size() - 1){
             posicion++;
         }
+        System.out.println("++++POSICION->" + posicion);
+        System.out.println(estados.get(0).objetosGraficos.size());
         return (MementoLienzo) estados.get(posicion);
     }
 
@@ -57,6 +62,7 @@ public class CaretakerLienzo {
     public void addMemento(MementoLienzo memento){
         estados.add(memento);
         posicion++;
+        System.out.println("++POSICION->" + posicion);
     }
 
     /**
