@@ -6,8 +6,10 @@
 
 package com.jturingmachinele;
 
-import com.jturingmachinele.visual.Aplicacion;
 import com.jturingmachinele.visual.Splash;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  * Clase principal de la aplicación.
@@ -17,11 +19,12 @@ import com.jturingmachinele.visual.Splash;
  */
 public class Main {
     public static void main(String[] args){
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        //JFrame.setDefaultLookAndFeelDecorated(true);
+	//JDialog.setDefaultLookAndFeelDecorated(true);
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Aplicacion().setVisible(true);
-                //new Thread(new Splash()).start(); //Arranca el Splash, pendiente hasta terminar JTM
+		new Thread(new Splash()).start();
             }
-        });
+	});
    }
 }

@@ -36,13 +36,14 @@ public class Lienzo extends JPanel implements IMemento{
      * Crea el lienzo y lo configura con ciertas propiedades de inicio.
      */
     public Lienzo(){
+        caretaker = new CaretakerLienzo();
         objetosGraficos = new ArrayList<ObjetoGrafico>();
         objetosGraficos.add(EstadoInicial.getInstancia());
+        caretaker.addMemento((MementoLienzo) getMemento());
         setBackground(Color.WHITE);
         setMaximumSize(new Dimension(1330, 1000));
         setPreferredSize(new Dimension(1330, 1000));
-        setAutoscrolls(true);
-        caretaker = new CaretakerLienzo();
+        setAutoscrolls(true);       
     }
 
     /**
@@ -109,6 +110,7 @@ public class Lienzo extends JPanel implements IMemento{
      */
     public void setObjetosGraficos(ArrayList<ObjetoGrafico> obj){
         objetosGraficos = obj;
+        caretaker.addMemento((MementoLienzo) getMemento());
         repaint();
     }
 
@@ -179,6 +181,7 @@ public class Lienzo extends JPanel implements IMemento{
         objetosGraficos = new ArrayList<ObjetoGrafico>();
         caretaker = new CaretakerLienzo();
         objetosGraficos.add(EstadoInicial.getInstancia());
+        caretaker.addMemento((MementoLienzo) getMemento());
         repaint();
     }
 

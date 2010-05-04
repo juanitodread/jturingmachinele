@@ -18,14 +18,13 @@ import com.jturingmachinele.graphics.transiciones.TransicionRecta;
 import com.jturingmachinele.persistencia.PersistirXML;
 import com.jturingmachinele.util.ExtencionArchivo;
 import com.jturingmachinele.visual.componentes.Lienzo;
-import com.sun.awt.AWTUtilities;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
-import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -78,14 +77,12 @@ public class Aplicacion extends javax.swing.JFrame {
     public Aplicacion() {
             lienzo = new Lienzo();
             initComponents();
-            //Icono Oficial de jTuringMachine
-            this.setIconImage (new ImageIcon(getClass().getResource(
-            "/com/jturingmachinele/visual/img/jTM_Logo.png")).getImage());
             configurarJTree();
             configurarPopup();
             configurarPopupJTree();                    
             setVisible(true);
             configurarGUI();
+            this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -105,7 +102,6 @@ public class Aplicacion extends javax.swing.JFrame {
         tBtnCiclo = new javax.swing.JToggleButton();
         tBtnRecta = new javax.swing.JToggleButton();
         tBtnArco = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
         pnlNorteDerecha = new javax.swing.JPanel();
         jtbMaquina = new javax.swing.JToolBar();
         txtCadena = new javax.swing.JTextField();
@@ -144,372 +140,371 @@ public class Aplicacion extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("jTuringMachine");
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
+        setIconImage(new ImageIcon(getClass().getResource(
+            "/com/jturingmachinele/visual/img/jTM_Logo.png")).getImage());
+addWindowListener(new java.awt.event.WindowAdapter() {
+    public void windowClosing(java.awt.event.WindowEvent evt) {
+        formWindowClosing(evt);
+    }
+    });
 
-        pnlEste.setBorder(javax.swing.BorderFactory.createTitledBorder("Arbol de objetos"));
+    pnlEste.setBorder(javax.swing.BorderFactory.createTitledBorder("Arbol de objetos"));
 
-        javax.swing.GroupLayout pnlEsteLayout = new javax.swing.GroupLayout(pnlEste);
-        pnlEste.setLayout(pnlEsteLayout);
-        pnlEsteLayout.setHorizontalGroup(
-            pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 210, Short.MAX_VALUE)
-        );
-        pnlEsteLayout.setVerticalGroup(
-            pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 602, Short.MAX_VALUE)
-        );
+    javax.swing.GroupLayout pnlEsteLayout = new javax.swing.GroupLayout(pnlEste);
+    pnlEste.setLayout(pnlEsteLayout);
+    pnlEsteLayout.setHorizontalGroup(
+        pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 210, Short.MAX_VALUE)
+    );
+    pnlEsteLayout.setVerticalGroup(
+        pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 584, Short.MAX_VALUE)
+    );
 
-        getContentPane().add(pnlEste, java.awt.BorderLayout.LINE_START);
+    getContentPane().add(pnlEste, java.awt.BorderLayout.LINE_START);
 
-        pnlNorte.setLayout(new java.awt.BorderLayout());
+    pnlNorte.setLayout(new java.awt.BorderLayout());
 
-        pnlNortePrincipal.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+    pnlNortePrincipal.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jtbEstado.setRollover(true);
-        jtbEstado.setToolTipText("Estado");
+    jtbEstado.setRollover(true);
+    jtbEstado.setToolTipText("Estado");
 
-        btnGrupoEstados.add(tBtnTransicion);
-        tBtnTransicion.setSelected(true);
-        tBtnTransicion.setText("Transitivo");
-        tBtnTransicion.setToolTipText("Selecciona la creación de un estado transitivo.");
-        tBtnTransicion.setFocusable(false);
-        tBtnTransicion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        tBtnTransicion.setRolloverEnabled(true);
-        tBtnTransicion.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jtbEstado.add(tBtnTransicion);
+    btnGrupoEstados.add(tBtnTransicion);
+    tBtnTransicion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/flag_blue.png"))); // NOI18N
+    tBtnTransicion.setSelected(true);
+    tBtnTransicion.setText("Transitivo");
+    tBtnTransicion.setToolTipText("Selecciona la creación de un estado transitivo.");
+    tBtnTransicion.setFocusable(false);
+    tBtnTransicion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    tBtnTransicion.setRolloverEnabled(true);
+    tBtnTransicion.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    jtbEstado.add(tBtnTransicion);
 
-        btnGrupoEstados.add(tBtnFinal);
-        tBtnFinal.setText("Final");
-        tBtnFinal.setToolTipText("Selecciona la creación de un estado final");
-        tBtnFinal.setFocusable(false);
-        tBtnFinal.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        tBtnFinal.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jtbEstado.add(tBtnFinal);
+    btnGrupoEstados.add(tBtnFinal);
+    tBtnFinal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/flag_green.png"))); // NOI18N
+    tBtnFinal.setText("Final");
+    tBtnFinal.setToolTipText("Selecciona la creación de un estado final");
+    tBtnFinal.setFocusable(false);
+    tBtnFinal.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    tBtnFinal.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    jtbEstado.add(tBtnFinal);
 
-        pnlNortePrincipal.add(jtbEstado);
+    pnlNortePrincipal.add(jtbEstado);
 
-        jtbTransicion.setRollover(true);
-        jtbTransicion.setToolTipText("Transicion");
+    jtbTransicion.setRollover(true);
+    jtbTransicion.setToolTipText("Transicion");
 
-        btnGrupoTransiciones.add(tBtnCiclo);
-        tBtnCiclo.setText("Ciclo");
-        tBtnCiclo.setFocusable(false);
-        tBtnCiclo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        tBtnCiclo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jtbTransicion.add(tBtnCiclo);
+    btnGrupoTransiciones.add(tBtnCiclo);
+    tBtnCiclo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/arrow_rotate_clockwise.png"))); // NOI18N
+    tBtnCiclo.setText("Ciclo");
+    tBtnCiclo.setFocusable(false);
+    tBtnCiclo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    tBtnCiclo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    jtbTransicion.add(tBtnCiclo);
 
-        btnGrupoTransiciones.add(tBtnRecta);
-        tBtnRecta.setSelected(true);
-        tBtnRecta.setText("Recta");
-        tBtnRecta.setFocusable(false);
-        tBtnRecta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        tBtnRecta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jtbTransicion.add(tBtnRecta);
+    btnGrupoTransiciones.add(tBtnRecta);
+    tBtnRecta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/arrow_right.png"))); // NOI18N
+    tBtnRecta.setSelected(true);
+    tBtnRecta.setText("Recta");
+    tBtnRecta.setFocusable(false);
+    tBtnRecta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    tBtnRecta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    jtbTransicion.add(tBtnRecta);
 
-        btnGrupoTransiciones.add(tBtnArco);
-        tBtnArco.setText("Arco");
-        tBtnArco.setFocusable(false);
-        tBtnArco.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        tBtnArco.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jtbTransicion.add(tBtnArco);
+    btnGrupoTransiciones.add(tBtnArco);
+    tBtnArco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/arrow_turn_right.png"))); // NOI18N
+    tBtnArco.setText("Arco");
+    tBtnArco.setFocusable(false);
+    tBtnArco.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    tBtnArco.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    jtbTransicion.add(tBtnArco);
 
-        pnlNortePrincipal.add(jtbTransicion);
+    pnlNortePrincipal.add(jtbTransicion);
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        pnlNortePrincipal.add(jButton1);
+    pnlNorte.add(pnlNortePrincipal, java.awt.BorderLayout.CENTER);
 
-        pnlNorte.add(pnlNortePrincipal, java.awt.BorderLayout.CENTER);
+    pnlNorteDerecha.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        pnlNorteDerecha.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+    jtbMaquina.setFloatable(false);
+    jtbMaquina.setRollover(true);
 
-        jtbMaquina.setFloatable(false);
-        jtbMaquina.setRollover(true);
+    txtCadena.setMaximumSize(new java.awt.Dimension(200, 20));
+    txtCadena.setMinimumSize(new java.awt.Dimension(200, 20));
+    txtCadena.setPreferredSize(new java.awt.Dimension(200, 20));
+    jtbMaquina.add(txtCadena);
 
-        txtCadena.setMaximumSize(new java.awt.Dimension(200, 20));
-        txtCadena.setMinimumSize(new java.awt.Dimension(200, 20));
-        txtCadena.setPreferredSize(new java.awt.Dimension(200, 20));
-        jtbMaquina.add(txtCadena);
+    btnValidar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/book_edit.png"))); // NOI18N
+    btnValidar.setToolTipText("Validar cadena con la máquina generáda.");
+    btnValidar.setFocusable(false);
+    btnValidar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    btnValidar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    jtbMaquina.add(btnValidar);
+    jtbMaquina.add(separadorMaquina);
 
-        btnValidar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/book_edit.png"))); // NOI18N
-        btnValidar.setToolTipText("Validar cadena con la máquina generáda.");
-        btnValidar.setFocusable(false);
-        btnValidar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnValidar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jtbMaquina.add(btnValidar);
-        jtbMaquina.add(separadorMaquina);
+    tBtnVistaPrevia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/zoom.png"))); // NOI18N
+    tBtnVistaPrevia.setToolTipText("Habilita/Deshabilita la vista previa.");
+    tBtnVistaPrevia.setFocusable(false);
+    tBtnVistaPrevia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    tBtnVistaPrevia.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    tBtnVistaPrevia.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            tBtnVistaPreviaActionPerformed(evt);
+        }
+    });
+    jtbMaquina.add(tBtnVistaPrevia);
 
-        tBtnVistaPrevia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/zoom.png"))); // NOI18N
-        tBtnVistaPrevia.setToolTipText("Habilita la vista previa.");
-        tBtnVistaPrevia.setFocusable(false);
-        tBtnVistaPrevia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        tBtnVistaPrevia.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        tBtnVistaPrevia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tBtnVistaPreviaActionPerformed(evt);
-            }
-        });
-        jtbMaquina.add(tBtnVistaPrevia);
+    pnlNorteDerecha.add(jtbMaquina);
 
-        pnlNorteDerecha.add(jtbMaquina);
+    pnlNorte.add(pnlNorteDerecha, java.awt.BorderLayout.EAST);
 
-        pnlNorte.add(pnlNorteDerecha, java.awt.BorderLayout.EAST);
+    getContentPane().add(pnlNorte, java.awt.BorderLayout.PAGE_START);
 
-        getContentPane().add(pnlNorte, java.awt.BorderLayout.PAGE_START);
+    pnlSur.setLayout(new java.awt.BorderLayout());
 
-        pnlSur.setLayout(new java.awt.BorderLayout());
+    pnlSurPrincipal.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        pnlSurPrincipal.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+    lbConsolaError.setText("Consola: ");
+    pnlSurPrincipal.add(lbConsolaError);
 
-        lbConsolaError.setText("Consola: ");
-        pnlSurPrincipal.add(lbConsolaError);
+    pnlSur.add(pnlSurPrincipal, java.awt.BorderLayout.CENTER);
 
-        pnlSur.add(pnlSurPrincipal, java.awt.BorderLayout.CENTER);
+    pnlSurDerecha.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        pnlSurDerecha.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+    btnMenosZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/magifier_zoom_out.png"))); // NOI18N
+    btnMenosZoom.setToolTipText("Disminuir zoom");
+    btnMenosZoom.setFocusable(false);
+    btnMenosZoom.setMaximumSize(new java.awt.Dimension(20, 23));
+    btnMenosZoom.setMinimumSize(new java.awt.Dimension(20, 23));
+    btnMenosZoom.setPreferredSize(new java.awt.Dimension(23, 23));
+    btnMenosZoom.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnMenosZoomActionPerformed(evt);
+        }
+    });
+    pnlSurDerecha.add(btnMenosZoom);
 
-        btnMenosZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/magifier_zoom_out.png"))); // NOI18N
-        btnMenosZoom.setToolTipText("Disminuir zoom");
-        btnMenosZoom.setFocusable(false);
-        btnMenosZoom.setMaximumSize(new java.awt.Dimension(20, 23));
-        btnMenosZoom.setMinimumSize(new java.awt.Dimension(20, 23));
-        btnMenosZoom.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnMenosZoom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMenosZoomActionPerformed(evt);
-            }
-        });
-        pnlSurDerecha.add(btnMenosZoom);
+    sldZoom.setMaximum(200);
+    sldZoom.setMinimum(25);
+    sldZoom.setMinorTickSpacing(25);
+    sldZoom.setPaintTicks(true);
+    sldZoom.setValue(100);
+    sldZoom.setMaximumSize(new java.awt.Dimension(150, 24));
+    sldZoom.setMinimumSize(new java.awt.Dimension(150, 24));
+    sldZoom.setPreferredSize(new java.awt.Dimension(150, 24));
+    sldZoom.addChangeListener(new javax.swing.event.ChangeListener() {
+        public void stateChanged(javax.swing.event.ChangeEvent evt) {
+            sldZoomStateChanged(evt);
+        }
+    });
+    pnlSurDerecha.add(sldZoom);
 
-        sldZoom.setMaximum(200);
-        sldZoom.setMinimum(25);
-        sldZoom.setMinorTickSpacing(25);
-        sldZoom.setPaintTicks(true);
-        sldZoom.setValue(100);
-        sldZoom.setMaximumSize(new java.awt.Dimension(150, 24));
-        sldZoom.setMinimumSize(new java.awt.Dimension(150, 24));
-        sldZoom.setPreferredSize(new java.awt.Dimension(150, 24));
-        sldZoom.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                sldZoomStateChanged(evt);
-            }
-        });
-        pnlSurDerecha.add(sldZoom);
+    btnMasZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/magnifier_zoom_in.png"))); // NOI18N
+    btnMasZoom.setToolTipText("Aumentar zoom");
+    btnMasZoom.setFocusable(false);
+    btnMasZoom.setMaximumSize(new java.awt.Dimension(23, 23));
+    btnMasZoom.setMinimumSize(new java.awt.Dimension(23, 23));
+    btnMasZoom.setPreferredSize(new java.awt.Dimension(23, 23));
+    btnMasZoom.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnMasZoomActionPerformed(evt);
+        }
+    });
+    pnlSurDerecha.add(btnMasZoom);
 
-        btnMasZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/magnifier_zoom_in.png"))); // NOI18N
-        btnMasZoom.setToolTipText("Aumentar zoom");
-        btnMasZoom.setFocusable(false);
-        btnMasZoom.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnMasZoom.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnMasZoom.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnMasZoom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMasZoomActionPerformed(evt);
-            }
-        });
-        pnlSurDerecha.add(btnMasZoom);
+    pnlSur.add(pnlSurDerecha, java.awt.BorderLayout.EAST);
 
-        pnlSur.add(pnlSurDerecha, java.awt.BorderLayout.EAST);
+    getContentPane().add(pnlSur, java.awt.BorderLayout.PAGE_END);
 
-        getContentPane().add(pnlSur, java.awt.BorderLayout.PAGE_END);
+    pnlPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder("Área de trabajo"));
+    pnlPrincipal.setLayout(new java.awt.BorderLayout());
+    getContentPane().add(pnlPrincipal, java.awt.BorderLayout.CENTER);
 
-        pnlPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder("Área de trabajo"));
-        pnlPrincipal.setLayout(new java.awt.BorderLayout());
-        getContentPane().add(pnlPrincipal, java.awt.BorderLayout.CENTER);
+    menuArchivo.setMnemonic('A');
+    menuArchivo.setText("Archivo");
 
-        menuArchivo.setMnemonic('A');
-        menuArchivo.setText("Archivo");
+    itemNuevoArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+    itemNuevoArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/page.png"))); // NOI18N
+    itemNuevoArchivo.setMnemonic('N');
+    itemNuevoArchivo.setText("Nuevo archivo");
+    itemNuevoArchivo.setToolTipText("Limpia el lienzo para poder dibujar una nueva máquina.");
+    itemNuevoArchivo.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            itemNuevoArchivoActionPerformed(evt);
+        }
+    });
+    menuArchivo.add(itemNuevoArchivo);
 
-        itemNuevoArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        itemNuevoArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/page.png"))); // NOI18N
-        itemNuevoArchivo.setMnemonic('N');
-        itemNuevoArchivo.setText("Nuevo archivo");
-        itemNuevoArchivo.setToolTipText("Limpia el lienzo para poder dibujar una nueva máquina.");
-        itemNuevoArchivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemNuevoArchivoActionPerformed(evt);
-            }
-        });
-        menuArchivo.add(itemNuevoArchivo);
+    itemAbrirArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+    itemAbrirArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/page_add.png"))); // NOI18N
+    itemAbrirArchivo.setMnemonic('A');
+    itemAbrirArchivo.setText("Abrir archivo");
+    itemAbrirArchivo.setToolTipText("Abre un archivo .jtmx en la extención especificada.");
+    itemAbrirArchivo.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            itemAbrirArchivoActionPerformed(evt);
+        }
+    });
+    menuArchivo.add(itemAbrirArchivo);
 
-        itemAbrirArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        itemAbrirArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/page_add.png"))); // NOI18N
-        itemAbrirArchivo.setMnemonic('A');
-        itemAbrirArchivo.setText("Abrir archivo");
-        itemAbrirArchivo.setToolTipText("Abre un archivo .jtmx en la extención especificada.");
-        itemAbrirArchivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAbrirArchivoActionPerformed(evt);
-            }
-        });
-        menuArchivo.add(itemAbrirArchivo);
+    itemGuardarArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+    itemGuardarArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/page_save.png"))); // NOI18N
+    itemGuardarArchivo.setMnemonic('G');
+    itemGuardarArchivo.setText("Guardar archivo");
+    itemGuardarArchivo.setToolTipText("Guarda un archivo con extensión .jtmx con la máquina de Turing en la ruta especificada.");
+    itemGuardarArchivo.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            itemGuardarArchivoActionPerformed(evt);
+        }
+    });
+    menuArchivo.add(itemGuardarArchivo);
 
-        itemGuardarArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
-        itemGuardarArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/page_save.png"))); // NOI18N
-        itemGuardarArchivo.setMnemonic('G');
-        itemGuardarArchivo.setText("Guardar archivo");
-        itemGuardarArchivo.setToolTipText("Guarda un archivo con extensión .jtmx con la máquina de Turing en la ruta especificada.");
-        itemGuardarArchivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemGuardarArchivoActionPerformed(evt);
-            }
-        });
-        menuArchivo.add(itemGuardarArchivo);
+    itemCerrarArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+    itemCerrarArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/page_delete.png"))); // NOI18N
+    itemCerrarArchivo.setMnemonic('C');
+    itemCerrarArchivo.setText("Cerrar archivo");
+    itemCerrarArchivo.setToolTipText("Cierra el archivo.");
+    itemCerrarArchivo.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            itemCerrarArchivoActionPerformed(evt);
+        }
+    });
+    menuArchivo.add(itemCerrarArchivo);
+    menuArchivo.add(separador1);
 
-        itemCerrarArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
-        itemCerrarArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/page_delete.png"))); // NOI18N
-        itemCerrarArchivo.setMnemonic('C');
-        itemCerrarArchivo.setText("Cerrar archivo");
-        itemCerrarArchivo.setToolTipText("Cierra el archivo.");
-        itemCerrarArchivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemCerrarArchivoActionPerformed(evt);
-            }
-        });
-        menuArchivo.add(itemCerrarArchivo);
-        menuArchivo.add(separador1);
+    itemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+    itemSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/application_form_delete.png"))); // NOI18N
+    itemSalir.setMnemonic('S');
+    itemSalir.setText("Salir");
+    itemSalir.setToolTipText("Sale de la aplicación.");
+    itemSalir.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            itemSalirActionPerformed(evt);
+        }
+    });
+    menuArchivo.add(itemSalir);
 
-        itemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        itemSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/application_form_delete.png"))); // NOI18N
-        itemSalir.setMnemonic('S');
-        itemSalir.setText("Salir");
-        itemSalir.setToolTipText("Sale de la aplicación.");
-        itemSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemSalirActionPerformed(evt);
-            }
-        });
-        menuArchivo.add(itemSalir);
+    barraMenu.add(menuArchivo);
 
-        barraMenu.add(menuArchivo);
+    menuEdicion.setMnemonic('E');
+    menuEdicion.setText("Edición");
 
-        menuEdicion.setMnemonic('E');
-        menuEdicion.setText("Edición");
+    itemDeshacer.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
+    itemDeshacer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/arrow_undo.png"))); // NOI18N
+    itemDeshacer.setMnemonic('D');
+    itemDeshacer.setText("Deshacer");
+    itemDeshacer.setToolTipText("Regresa el lienzo a su estado anterior inmediato.");
+    itemDeshacer.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            itemDeshacerActionPerformed(evt);
+        }
+    });
+    menuEdicion.add(itemDeshacer);
 
-        itemDeshacer.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
-        itemDeshacer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/arrow_undo.png"))); // NOI18N
-        itemDeshacer.setMnemonic('D');
-        itemDeshacer.setText("Deshacer");
-        itemDeshacer.setToolTipText("Regresa el lienzo a su estado anterior inmediato.");
-        itemDeshacer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemDeshacerActionPerformed(evt);
-            }
-        });
-        menuEdicion.add(itemDeshacer);
+    itemRehacer.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
+    itemRehacer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/arrow_redo.png"))); // NOI18N
+    itemRehacer.setMnemonic('R');
+    itemRehacer.setText("Rehacer");
+    itemRehacer.setToolTipText("Regresa el lienzo a su estado siguiente inmediato.");
+    itemRehacer.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            itemRehacerActionPerformed(evt);
+        }
+    });
+    menuEdicion.add(itemRehacer);
 
-        itemRehacer.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
-        itemRehacer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/arrow_redo.png"))); // NOI18N
-        itemRehacer.setMnemonic('R');
-        itemRehacer.setText("Rehacer");
-        itemRehacer.setToolTipText("Regresa el lienzo a su estado siguiente inmediato.");
-        itemRehacer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemRehacerActionPerformed(evt);
-            }
-        });
-        menuEdicion.add(itemRehacer);
+    barraMenu.add(menuEdicion);
 
-        barraMenu.add(menuEdicion);
+    menuHerramientas.setMnemonic('H');
+    menuHerramientas.setText("Herramientas");
 
-        menuHerramientas.setMnemonic('H');
-        menuHerramientas.setText("Herramientas");
+    menuApariencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/application_view_tile.png"))); // NOI18N
+    menuApariencias.setMnemonic('p');
+    menuApariencias.setText("Apariencias");
+    menuApariencias.setToolTipText("Cambia las apariencias dependiendo del sistema operativo.");
 
-        menuApariencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/application_view_tile.png"))); // NOI18N
-        menuApariencias.setMnemonic('p');
-        menuApariencias.setText("Apariencias");
-        menuApariencias.setToolTipText("Cambia las apariencias dependiendo del sistema operativo.");
+    btnGrupoApariencias.add(rdioMenuLinux);
+    rdioMenuLinux.setMnemonic('L');
+    rdioMenuLinux.setText("Linux");
+    rdioMenuLinux.setToolTipText("Cambia la apariencia a Linux, siempre y cuando esté disponible.");
+    rdioMenuLinux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/tux.png"))); // NOI18N
+    rdioMenuLinux.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            rdioMenuLinuxActionPerformed(evt);
+        }
+    });
+    menuApariencias.add(rdioMenuLinux);
 
-        btnGrupoApariencias.add(rdioMenuLinux);
-        rdioMenuLinux.setMnemonic('L');
-        rdioMenuLinux.setText("Linux");
-        rdioMenuLinux.setToolTipText("Cambia la apariencia a Linux, siempre y cuando esté disponible.");
-        rdioMenuLinux.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/tux.png"))); // NOI18N
-        rdioMenuLinux.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMenuLinuxActionPerformed(evt);
-            }
-        });
-        menuApariencias.add(rdioMenuLinux);
+    btnGrupoApariencias.add(rdioMenuWindows);
+    rdioMenuWindows.setMnemonic('W');
+    rdioMenuWindows.setText("Windows");
+    rdioMenuWindows.setToolTipText("Cambia la apariencia a Windows, siempre y cuando esté disponible.");
+    rdioMenuWindows.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/bricks.png"))); // NOI18N
+    rdioMenuWindows.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            rdioMenuWindowsActionPerformed(evt);
+        }
+    });
+    menuApariencias.add(rdioMenuWindows);
 
-        btnGrupoApariencias.add(rdioMenuWindows);
-        rdioMenuWindows.setMnemonic('W');
-        rdioMenuWindows.setText("Windows");
-        rdioMenuWindows.setToolTipText("Cambia la apariencia a Windows, siempre y cuando esté disponible.");
-        rdioMenuWindows.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/bricks.png"))); // NOI18N
-        rdioMenuWindows.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMenuWindowsActionPerformed(evt);
-            }
-        });
-        menuApariencias.add(rdioMenuWindows);
+    btnGrupoApariencias.add(rdioMenuSolaris);
+    rdioMenuSolaris.setMnemonic('S');
+    rdioMenuSolaris.setText("Solaris");
+    rdioMenuSolaris.setToolTipText("Cambia la apariencia a Sun Solaris, siempre y cuando esté disponible.");
+    rdioMenuSolaris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/weather_sun.png"))); // NOI18N
+    rdioMenuSolaris.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            rdioMenuSolarisActionPerformed(evt);
+        }
+    });
+    menuApariencias.add(rdioMenuSolaris);
 
-        btnGrupoApariencias.add(rdioMenuSolaris);
-        rdioMenuSolaris.setMnemonic('S');
-        rdioMenuSolaris.setText("Solaris");
-        rdioMenuSolaris.setToolTipText("Cambia la apariencia a Sun Solaris, siempre y cuando esté disponible.");
-        rdioMenuSolaris.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/weather_sun.png"))); // NOI18N
-        rdioMenuSolaris.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMenuSolarisActionPerformed(evt);
-            }
-        });
-        menuApariencias.add(rdioMenuSolaris);
+    btnGrupoApariencias.add(rdioMenuMetal);
+    rdioMenuMetal.setMnemonic('M');
+    rdioMenuMetal.setSelected(true);
+    rdioMenuMetal.setText("Metal");
+    rdioMenuMetal.setToolTipText("Cambia la apariencia a la default de la JVM.");
+    rdioMenuMetal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/control_repeat.png"))); // NOI18N
+    rdioMenuMetal.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            rdioMenuMetalActionPerformed(evt);
+        }
+    });
+    menuApariencias.add(rdioMenuMetal);
 
-        btnGrupoApariencias.add(rdioMenuMetal);
-        rdioMenuMetal.setMnemonic('M');
-        rdioMenuMetal.setSelected(true);
-        rdioMenuMetal.setText("Metal");
-        rdioMenuMetal.setToolTipText("Cambia la apariencia a la default de la JVM.");
-        rdioMenuMetal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/control_repeat.png"))); // NOI18N
-        rdioMenuMetal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdioMenuMetalActionPerformed(evt);
-            }
-        });
-        menuApariencias.add(rdioMenuMetal);
+    menuHerramientas.add(menuApariencias);
 
-        menuHerramientas.add(menuApariencias);
+    barraMenu.add(menuHerramientas);
 
-        barraMenu.add(menuHerramientas);
+    menuAyuda.setMnemonic('y');
+    menuAyuda.setText("Ayuda");
 
-        menuAyuda.setMnemonic('y');
-        menuAyuda.setText("Ayuda");
+    itemAyuda.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+    itemAyuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/help.png"))); // NOI18N
+    itemAyuda.setMnemonic('C');
+    itemAyuda.setText("Contenido de ayuda");
+    itemAyuda.setToolTipText("Muestra el contenido de ayuda de la aplicación.");
+    menuAyuda.add(itemAyuda);
 
-        itemAyuda.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
-        itemAyuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/help.png"))); // NOI18N
-        itemAyuda.setMnemonic('C');
-        itemAyuda.setText("Contenido de ayuda");
-        itemAyuda.setToolTipText("Muestra el contenido de ayuda de la aplicación.");
-        menuAyuda.add(itemAyuda);
+    itemAcercaDe.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+    itemAcercaDe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/award_star_bronze_2.png"))); // NOI18N
+    itemAcercaDe.setMnemonic('A');
+    itemAcercaDe.setText("Acerca de...");
+    itemAcercaDe.setToolTipText("Muestra información general de la aplicación.");
+    itemAcercaDe.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            itemAcercaDeActionPerformed(evt);
+        }
+    });
+    menuAyuda.add(itemAcercaDe);
 
-        itemAcercaDe.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
-        itemAcercaDe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/award_star_bronze_2.png"))); // NOI18N
-        itemAcercaDe.setMnemonic('A');
-        itemAcercaDe.setText("Acerca de...");
-        itemAcercaDe.setToolTipText("Muestra información general de la aplicación.");
-        itemAcercaDe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAcercaDeActionPerformed(evt);
-            }
-        });
-        menuAyuda.add(itemAcercaDe);
+    barraMenu.add(menuAyuda);
 
-        barraMenu.add(menuAyuda);
+    setJMenuBar(barraMenu);
 
-        setJMenuBar(barraMenu);
+    getAccessibleContext().setAccessibleName("jTuringMachine | Ornitorrinco");
 
-        getAccessibleContext().setAccessibleName("jTuringMachine | Ornitorrinco");
-
-        pack();
+    pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemAbrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAbrirArchivoActionPerformed
@@ -673,12 +668,6 @@ public class Aplicacion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        String cad = JOptionPane.showInputDialog(this,"Visibiliada");
-//        AWTUtilities.setWindowOpacity(Aplicacion.this, Float.parseFloat(cad));
-        lienzo.getEstados();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void tBtnVistaPreviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tBtnVistaPreviaActionPerformed
         vistaPrevia(tBtnVistaPrevia.isSelected());
     }//GEN-LAST:event_tBtnVistaPreviaActionPerformed
@@ -747,14 +736,6 @@ public class Aplicacion extends javax.swing.JFrame {
                     menuTransiciones.add(itemT);
                 }
             }
-//            for(ObjetoGrafico estado : lienzo.getObjetosGraficos()){
-//                if(estado.getClass().getName().contains("Estado")){
-//                    Estado aux = (Estado)estado;
-//                    JMenuItem item = new JMenuItem(aux.getEtiqueta());
-//                    item.addActionListener(manejador);
-//                    menuEstados.add(item);
-//                }
-//            }
         }
     }
 
@@ -816,14 +797,6 @@ public class Aplicacion extends javax.swing.JFrame {
                     crear = false;
                 }
             }
-//            for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
-//                if(obj.getClass().getName().contains("Estado")){
-//                    Estado est = (Estado) obj;
-//                    if(est.isFlotando(evt.getX(), evt.getY())){
-//                        crear = false;
-//                    }
-//                }
-//            }
             if(crear){
                 Estado nuevo;
                 String etiqueta = JOptionPane.showInputDialog(this, "Etiqueta");
@@ -874,12 +847,6 @@ public class Aplicacion extends javax.swing.JFrame {
             for(Estado est : lienzo.getEstados()){
                 est.setMoving(false);
             }
-//            for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
-//                if(obj.getClass().getName().contains("Estado")){
-//                    Estado est = (Estado) obj;
-//                    est.setMoving(false);
-//                }
-//            }
         }
         tipoPopup=0;//Define el popup a utilizar
     }
@@ -910,7 +877,7 @@ public class Aplicacion extends javax.swing.JFrame {
     private void lienzoMouseDragged(java.awt.event.MouseEvent evt){
         if(!evt.isMetaDown()){
             for(Estado est : lienzo.getEstados()){
-                if(!est.isFlotando(evt.getX(), evt.getY()) && !est.isMoving()){
+                if(!est.isFlotando(evt.getX(), evt.getY()) && !est.isMoving()){                    
                     est.setMoving(false);
                 }else if((est.isFlotando(evt.getX(), evt.getY()) || est.isMoving()) && !est.isBloqueado()){
                     est.setMoving(true);
@@ -921,21 +888,6 @@ public class Aplicacion extends javax.swing.JFrame {
                     lienzo.repaint();
                 }
             }
-//            for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
-//                if(obj.getClass().getName().contains("Estado")){
-//                    Estado est = (Estado) obj;
-//                    if(!est.isFlotando(evt.getX(), evt.getY()) && !est.isMoving()){
-//                        est.setMoving(false);
-//                    }else if((est.isFlotando(evt.getX(), evt.getY()) || est.isMoving()) && !est.isBloqueado()){
-//                        est.setMoving(true);
-//                        Point posicion = new Point(evt.getX() - Estado.RADIO,
-//                                                   evt.getY() - Estado.RADIO);
-//                        est.setCoordenadaXY(posicion);
-//                        lienzo.bloquearEstados(est);
-//                        lienzo.repaint();
-//                    }
-//                }
-//            }
         }
     }
 
@@ -944,28 +896,16 @@ public class Aplicacion extends javax.swing.JFrame {
         for(Estado est : lienzo.getEstados()){
             est.setBloqueado(false);
             if(est.isFlotando(evt.getX(), evt.getY()) && !est.isExitado()){
+                lienzo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 est.exitar();
                 est.setExitado(true);
             }else if(!est.isFlotando(evt.getX(), evt.getY()) && est.isExitado()){
+                lienzo.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 est.desexitar();
                 est.setExitado(false);
             }
             lienzo.repaint();
         }
-//        for(ObjetoGrafico obj : lienzo.getObjetosGraficos()){
-//            if(obj.getClass().getName().contains("Estado")){
-//                Estado est = (Estado) obj;
-//                est.setBloqueado(false);
-//                if(est.isFlotando(evt.getX(), evt.getY()) && !est.isExitado()){
-//                    est.exitar();
-//                    est.setExitado(true);
-//                }else if(!est.isFlotando(evt.getX(), evt.getY()) && est.isExitado()){
-//                    est.desexitar();
-//                    est.setExitado(false);
-//                }
-//                lienzo.repaint();
-//            }
-//        }
     }
 
     //Evento para eliminar un Estado desde los PopUp
@@ -1234,7 +1174,7 @@ public class Aplicacion extends javax.swing.JFrame {
             configurarJTree();
             DefaultMutableTreeNode nodoEstado = null;
             DefaultMutableTreeNode nodoTransicion = null;
-            for(ObjetoGrafico o: objetos){
+            for(ObjetoGrafico o : objetos){
                 if(o.getClass().getSuperclass().equals(Estado.class)){
                     Estado est = (Estado)o;
                     nodoEstado = new DefaultMutableTreeNode("Estado: " + est.getEtiqueta());
@@ -1246,7 +1186,7 @@ public class Aplicacion extends javax.swing.JFrame {
                         Transicion tran = (Transicion)o;
                         nodoTransicion = new DefaultMutableTreeNode("Transicion: "
                                             + tran.getEtiqueta());
-                        for(int a=0; a<padre.getChildCount(); a++){
+                        for(int a = 0; a < padre.getChildCount(); a++){
                             if(padre.getChildAt(a).toString().equalsIgnoreCase("Estado: "
                                     + tran.getNodoInicial().getEtiqueta())){
                                 nodoEstado = (DefaultMutableTreeNode)padre.getChildAt(a);
@@ -1277,7 +1217,6 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemNuevoArchivo;
     private javax.swing.JMenuItem itemRehacer;
     private javax.swing.JMenuItem itemSalir;
-    private javax.swing.JButton jButton1;
     private javax.swing.JToolBar jtbEstado;
     private javax.swing.JToolBar jtbMaquina;
     private javax.swing.JToolBar jtbTransicion;
@@ -1327,7 +1266,7 @@ public class Aplicacion extends javax.swing.JFrame {
             if(etiqueta != null && !etiqueta.isEmpty()){
                 Estado estIni;
                 Estado estFin;
-                if(tipoPopup==0){
+                if(tipoPopup == 0){
                     estIni = lienzo.getEstadoSeleccionado(popUpX, popUpY);
                     estFin = lienzo.getEstado(evento.getActionCommand());
                 }else{

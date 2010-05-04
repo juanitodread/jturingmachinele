@@ -13,6 +13,7 @@ package com.jturingmachinele.visual;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 /**
  *
@@ -37,6 +38,7 @@ public class Splash extends javax.swing.JFrame implements Runnable{
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("jTuringMachine");
         setUndecorated(true);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/SplashJTM_Med.png"))); // NOI18N
@@ -74,9 +76,11 @@ public class Splash extends javax.swing.JFrame implements Runnable{
         try {
             this.setLocationRelativeTo(null); //coloca el splash al centro de la pantalla
             this.setVisible(true); //Hace visible el Splash
-            Thread.sleep(7000); //Mantiene el Splash visible por 7 segundos
+            Thread.sleep(3000); //Mantiene el Splash visible por 7 segundos
             this.dispose(); //Cierra el Splash
-            new Aplicacion();
+            Aplicacion app = new Aplicacion();
+            app.setVisible(true);
+            //app.setExtendedState(JFrame.MAXIMIZED_BOTH);
         } catch (InterruptedException ex) {
             Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);
         }
