@@ -13,3 +13,8 @@ Al estar desarrollado en la tecnología Java, jTuringMachine aprovecha las bonda
 jTuringMachine es un proyecto de software libre enfocado al aprendizaje de las máquinas de Turing, más que nada esperamos que sea de utilidad para estudiantes y profesores que cursan e imparten respectivamente materias como Teoría de la computación, Autómatas, etc. También puedes bajarte el código si es que quieres saber como se realizó algún proceso.
 
 Actualmente el proyecto está en fase de desarrollo aunque se ha estado avanzando considerablemente ya que actualmente el sistema funciona en la parte gráfica.
+
+
+== Diagrama de clases ==
+
+http://farm3.static.flickr.com/2768/4404234765_5ae9c35705.jpg
