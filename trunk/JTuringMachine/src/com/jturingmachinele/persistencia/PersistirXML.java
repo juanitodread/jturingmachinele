@@ -54,7 +54,8 @@ public class PersistirXML {
      * @param archivo De donde obtendra los datos.
      * @return Un <code>ArrayList<ObjetoGrafico></code> con los datos.
      */
-    public static ArrayList<ObjetoGrafico> abrir(File archivo){
+    @SuppressWarnings("unchecked")
+	public static ArrayList<ObjetoGrafico> abrir(File archivo){
         ArrayList<ObjetoGrafico> objetos = null;
         try{
             lector = new XMLDecoder(new FileInputStream(archivo));
