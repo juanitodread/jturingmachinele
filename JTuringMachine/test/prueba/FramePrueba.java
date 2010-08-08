@@ -52,7 +52,7 @@ private JScrollPane scroll;
         fin = new EstadoFinal(new Point(250,100), "q4");
         tran = new TransicionRecta(ei, et, "bDe");
         tran2 = new TransicionRecta(ei, fin, "aDc");
-        tranC = new TransicionCiclo(ei,ei,"aDx");
+//
         lienzo.setObjetoGrafico(ei);
         lienzo.setObjetoGrafico(et);
         lienzo.setObjetoGrafico(fin);
@@ -257,7 +257,7 @@ boolean bandera = false;
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-        lienzo.setObjetoGrafico(new TransicionCiclo(fin,fin,"aVo"));
+        //lienzo.setObjetoGrafico(new TransicionCiclo(fin,fin,"aVo"));
     }//GEN-LAST:event_jButton8ActionPerformed
 
 
