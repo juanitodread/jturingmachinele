@@ -1,7 +1,23 @@
 /*
+ *  TODOS LOS DERECHOS RESERVADOS PARA LOS DESARROLLADORES DEL PROYECTO jTuringMachine.
+ *   
+ *  Copyright (C) 2009  SystarSystems.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or 
+ *  any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see http://www.gnu.org/licenses/.
+ * 
  * @(#)Aplicacion.java	1.0 04/02/2010
  *
- * TODOS LOS DERECHOS RESERVADOS PARA LOS DESARROLLADORES DEL PROYECTO jTuringMachine.
  */
 
 package com.jturingmachinele.visual;
@@ -92,7 +108,6 @@ public class Aplicacion extends javax.swing.JFrame {
         btnGrupoApariencias = new javax.swing.ButtonGroup();
         btnGrupoEstados = new javax.swing.ButtonGroup();
         btnGrupoTransiciones = new javax.swing.ButtonGroup();
-        pnlEste = new javax.swing.JPanel();
         pnlNorte = new javax.swing.JPanel();
         pnlNortePrincipal = new javax.swing.JPanel();
         jtbEstado = new javax.swing.JToolBar();
@@ -116,7 +131,9 @@ public class Aplicacion extends javax.swing.JFrame {
         btnMenosZoom = new javax.swing.JButton();
         sldZoom = new javax.swing.JSlider();
         btnMasZoom = new javax.swing.JButton();
+        splPanelCentral = new javax.swing.JSplitPane();
         pnlPrincipal = new javax.swing.JPanel();
+        pnlEste = new javax.swing.JPanel();
         barraMenu = new javax.swing.JMenuBar();
         menuArchivo = new javax.swing.JMenu();
         itemNuevoArchivo = new javax.swing.JMenuItem();
@@ -148,21 +165,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }
     });
 
-    pnlEste.setBorder(javax.swing.BorderFactory.createTitledBorder("Arbol de objetos"));
-
-    javax.swing.GroupLayout pnlEsteLayout = new javax.swing.GroupLayout(pnlEste);
-    pnlEste.setLayout(pnlEsteLayout);
-    pnlEsteLayout.setHorizontalGroup(
-        pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 210, Short.MAX_VALUE)
-    );
-    pnlEsteLayout.setVerticalGroup(
-        pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 584, Short.MAX_VALUE)
-    );
-
-    getContentPane().add(pnlEste, java.awt.BorderLayout.LINE_START);
-
     pnlNorte.setLayout(new java.awt.BorderLayout());
 
     pnlNortePrincipal.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
@@ -177,7 +179,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     tBtnTransicion.setToolTipText("Selecciona la creación de un estado transitivo.");
     tBtnTransicion.setFocusable(false);
     tBtnTransicion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-    tBtnTransicion.setRolloverEnabled(true);
     tBtnTransicion.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
     jtbEstado.add(tBtnTransicion);
 
@@ -210,6 +211,11 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     tBtnRecta.setFocusable(false);
     tBtnRecta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
     tBtnRecta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+    tBtnRecta.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            tBtnRectaActionPerformed(evt);
+        }
+    });
     jtbTransicion.add(tBtnRecta);
 
     btnGrupoTransiciones.add(tBtnArco);
@@ -318,7 +324,24 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
     pnlPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder("Área de trabajo"));
     pnlPrincipal.setLayout(new java.awt.BorderLayout());
-    getContentPane().add(pnlPrincipal, java.awt.BorderLayout.CENTER);
+    splPanelCentral.setRightComponent(pnlPrincipal);
+
+    pnlEste.setBorder(javax.swing.BorderFactory.createTitledBorder("Arbol de objetos"));
+
+    javax.swing.GroupLayout pnlEsteLayout = new javax.swing.GroupLayout(pnlEste);
+    pnlEste.setLayout(pnlEsteLayout);
+    pnlEsteLayout.setHorizontalGroup(
+        pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 208, Short.MAX_VALUE)
+    );
+    pnlEsteLayout.setVerticalGroup(
+        pnlEsteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 575, Short.MAX_VALUE)
+    );
+
+    splPanelCentral.setLeftComponent(pnlEste);
+
+    getContentPane().add(splPanelCentral, java.awt.BorderLayout.CENTER);
 
     menuArchivo.setMnemonic('A');
     menuArchivo.setText("Archivo");
@@ -684,6 +707,10 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private void btnMasZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasZoomActionPerformed
         sldZoom.setValue(sldZoom.getValue() + 10);
     }//GEN-LAST:event_btnMasZoomActionPerformed
+
+    private void tBtnRectaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tBtnRectaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tBtnRectaActionPerformed
 
     //Configuramos el popUp
     private void configurarPopup(){
@@ -1241,6 +1268,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JSeparator separador1;
     private javax.swing.JToolBar.Separator separadorMaquina;
     private javax.swing.JSlider sldZoom;
+    private javax.swing.JSplitPane splPanelCentral;
     private javax.swing.JToggleButton tBtnArco;
     private javax.swing.JToggleButton tBtnCiclo;
     private javax.swing.JToggleButton tBtnFinal;
