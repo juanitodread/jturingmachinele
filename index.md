@@ -1,0 +1,31 @@
+# jTuringMachine #
+It's a tool that permits represent graphically Turing machines in the form of graphs, as well as to validate a string for the Turing machine represented in question.
+
+|
+
+Es una herramienta que permite representar gráficamente máquinas de Turing en forma de grafos, así como también permite validar alguna cadena para la máquina de Turing representada en cuestión.
+
+
+# Details | Detalles #
+jTuringMachine allows make your graphs and save a file in .jtmx formmat which is a specific xml jTuringMachine.
+
+Being developed in Java Technology, jTuringMachine takes the benefits of this technology allowing cross-platform application is also possible to change the apparence of the application to the Operating System that you are using (Windows, Linux, Solaris).
+
+jTuringMachine is a free software project focused on the learning of the Turing machines, most of all hope will be useful for students and teachers respectively who attend and teach subjects such as Theory of Computation, Automata, etc. You can also download the code if you want to know how make some process.
+
+The project is currently under development but has been moving considerably as the system currently works in the graphic module.
+
+|
+
+jTuringMachine permite realizar tus grafos y guardarlos en un archivo en formato .jtmx que es un xml específico para jTuringMachine.
+
+Al estar desarrollado en la tecnología Java, jTuringMachine aprovecha las bondades de dicha tecnología permitiendo que la aplicación sea multiplataforma y tambien es posible cambiar la apariencia de la aplicación al sistema operativo que se este utilizando (Windows, Linux, Solaris).
+
+jTuringMachine es un proyecto de software libre enfocado al aprendizaje de las máquinas de Turing, más que nada esperamos que sea de utilidad para estudiantes y profesores que cursan e imparten respectivamente materias como Teoría de la computación, Autómatas, etc. También puedes bajarte el código si es que quieres saber como se realizó algún proceso.
+
+Actualmente el proyecto está en fase de desarrollo aunque se ha estado avanzando considerablemente ya que actualmente el sistema funciona en la parte gráfica.
+
+
+## Class diagram | Diagrama de clases ##
+
+![http://farm3.static.flickr.com/2768/4404234765_5ae9c35705.jpg](http://farm3.static.flickr.com/2768/4404234765_5ae9c35705.jpg)
