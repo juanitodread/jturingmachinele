@@ -34,9 +34,9 @@ public class AcercaDe extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
-        setMinimumSize(new Dimension(435, 376));
-        setMaximumSize(new Dimension(435, 376));
-        setPreferredSize(new Dimension(435, 376));
+        setMinimumSize(new Dimension(435, 576));
+        setMaximumSize(new Dimension(435, 576));
+        setPreferredSize(new Dimension(435, 576));
     }
 
     /** This method is called from within the constructor to
@@ -107,11 +107,11 @@ public class AcercaDe extends javax.swing.JDialog {
         pnlCentro.setLayout(new java.awt.BorderLayout());
 
         lblAcercaDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAcercaDe.setText("<html>\n\t\n\t<center<h3>jTuringMachine</h3></center>\n\t<justify><p>\n\t\tjTuringMachine es un proyecto realizádo para modelar gráficamente\n\t\tmáquinas de Turing mediante grafos. jTuringMachine está licenciado\n\t\tbajo la <a href=\"http://www.mozilla.org/MPL/\">Mozilla Public License 1.1</a>\n\t\ty el sitio del proyecto está alojado en <a href=\"http://www.mozilla.org/MPL/\">http://code.google.com/p/jturingmachinele/</a>.<br/><br/>\n\t\tLa principal motivación del desarrollo del proyecto es más que nada educativo y se pretende\n\t\tque las demás personas aprendan del código y utilizen la herramienta.<br/><br/>\n\t\tLa utilización del código es completa y totalmente libre, solo se pide indicar\n\t\tel nombre de los desarrolladores.\n\t</justify></p>\n\t\n<html>");
+        lblAcercaDe.setText("<html>\n\t\n\t<center<h3>jTuringMachine</h3></center>\n\t<justify><p>\n\t\tjTuringMachine es un proyecto realizádo para modelar gráficamente\n\t\tmáquinas de Turing mediante grafos. jTuringMachine está licenciado\n\t\tbajo la <a href=\"http://www.mozilla.org/MPL/\">Mozilla Public License 1.1</a>\n\t\ty el sitio del proyecto está alojado en <a href=\"http://www.mozilla.org/MPL/\">https://github.com/juanitodread/jturingmachinele</a>.<br/><br/>\n\t\tLa principal motivación del desarrollo del proyecto es más que nada educativo y se pretende\n\t\tque las demás personas aprendan del código y utilizen la herramienta.<br/><br/>\n\t\tLa utilización del código es completa y totalmente libre, solo se pide indicar\n\t\tel nombre de los desarrolladores.<br/><br/>- Juan Antonio Sandoval Delgado - <a href=\"http://juanitodread.github.io/\">http://juanitodread.github.io/</a><br/>- Marcela Guadalupe Sena Dominguez\t</justify></p>\n\t\n<html>");
         lblAcercaDe.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        lblAcercaDe.setMaximumSize(new java.awt.Dimension(435, 200));
-        lblAcercaDe.setMinimumSize(new java.awt.Dimension(435, 200));
-        lblAcercaDe.setPreferredSize(new java.awt.Dimension(435, 200));
+        lblAcercaDe.setMaximumSize(new java.awt.Dimension(435, 250));
+        lblAcercaDe.setMinimumSize(new java.awt.Dimension(435, 250));
+        lblAcercaDe.setPreferredSize(new java.awt.Dimension(435, 250));
         lblAcercaDe.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
         pnlCentro.add(lblAcercaDe, java.awt.BorderLayout.CENTER);
 

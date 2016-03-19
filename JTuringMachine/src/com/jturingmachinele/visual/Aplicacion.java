@@ -88,6 +88,7 @@ public class Aplicacion extends javax.swing.JFrame {
     public static final int LINUX = 0;
     public static final int WINDOWS = 1;
     public static final int SOLARIS = 2;
+    public static final int MAC = 3;
 
     /** Creates new form Aplicacion */
     public Aplicacion() {
@@ -150,6 +151,7 @@ public class Aplicacion extends javax.swing.JFrame {
         rdioMenuLinux = new javax.swing.JRadioButtonMenuItem();
         rdioMenuWindows = new javax.swing.JRadioButtonMenuItem();
         rdioMenuSolaris = new javax.swing.JRadioButtonMenuItem();
+        rdioMenuMac = new javax.swing.JRadioButtonMenuItem();
         rdioMenuMetal = new javax.swing.JRadioButtonMenuItem();
         menuAyuda = new javax.swing.JMenu();
         itemAyuda = new javax.swing.JMenuItem();
@@ -481,6 +483,18 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         }
     });
     menuApariencias.add(rdioMenuSolaris);
+    
+    btnGrupoApariencias.add(rdioMenuMac);
+    rdioMenuMac.setMnemonic('O');
+    rdioMenuMac.setText("Mac OS");
+    rdioMenuMac.setToolTipText("Cambia la apariencia a Mac OS, siempre y cuando esté disponible.");
+    rdioMenuMac.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jturingmachinele/visual/img/bricks.png"))); // NOI18N
+    rdioMenuMac.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            rdioMenuMacActionPerformed(evt);
+        }
+    });
+    menuApariencias.add(rdioMenuMac);
 
     btnGrupoApariencias.add(rdioMenuMetal);
     rdioMenuMetal.setMnemonic('M');
@@ -630,6 +644,22 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private void rdioMenuWindowsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioMenuWindowsActionPerformed
         try {
             setApariencia(WINDOWS);
+        } catch (InstantiationException ex) {
+            ex.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
+        } catch (UnsupportedLookAndFeelException ex) {
+            JOptionPane.showMessageDialog(this, "Apariencia no disponible en este sistema operatívo.",
+                                          "jTuringMachine", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Apariencia no disponible en este sistema operatívo.",
+                                          "jTuringMachine", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_rdioMenuWindowsActionPerformed
+    
+    private void rdioMenuMacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdioMenuWindowsActionPerformed
+        try {
+            setApariencia(MAC);
         } catch (InstantiationException ex) {
             ex.printStackTrace();
         } catch (IllegalAccessException ex) {
@@ -1146,6 +1176,9 @@ addWindowListener(new java.awt.event.WindowAdapter() {
             case SOLARIS : {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
             }break;
+            case MAC : {
+                UIManager.setLookAndFeel("com.apple.laf.AquaLookAndFeel");
+            }break;
             default : {
                 UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
             };
@@ -1265,6 +1298,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JRadioButtonMenuItem rdioMenuMetal;
     private javax.swing.JRadioButtonMenuItem rdioMenuSolaris;
     private javax.swing.JRadioButtonMenuItem rdioMenuWindows;
+    private javax.swing.JRadioButtonMenuItem rdioMenuMac;
     private javax.swing.JSeparator separador1;
     private javax.swing.JToolBar.Separator separadorMaquina;
     private javax.swing.JSlider sldZoom;
